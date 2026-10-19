@@ -1,0 +1,3400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prag">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#f8fafc" id="metaThemeColor">
+  <meta name="format-detection" content="telephone=no">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2311141a'/><path d='M30 65L50 25L70 65Z' stroke='%23ffffff' stroke-width='6' fill='none'/></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2311141a'/><path d='M30 65L50 25L70 65Z' stroke='%23ffffff' stroke-width='6' fill='none'/></svg>">
+
+  <title>Prag Gezi Rehberi & Canlı Rota</title>
+
+  <style>
+    :root, body.theme-light {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.92);
+      --card-bg: #ffffff;
+      --card-checked: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.04);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --primary: #0f172a;
+      --primary-inverse: #ffffff;
+      --btn-bg: #f1f5f9;
+      --btn-text: #0f172a;
+      --btn-border: rgba(0, 0, 0, 0.08);
+      --btn-primary-bg: #0f172a;
+      --btn-primary-text: #ffffff;
+      --dock-bg: rgba(255, 255, 255, 0.94);
+      --dock-border: rgba(0, 0, 0, 0.1);
+      --dock-text: #334155;
+      --dock-icon: #0f172a;
+      --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      --hero-bg: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      --hero-border: rgba(0, 0, 0, 0.1);
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #7c3aed;
+      --accent-rose: #e11d48;
+      --accent-blue: #2563eb;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+    body.theme-dark {
+      --bg: #0b0d12;
+      --surface: #12151c;
+      --surface-glass: rgba(18, 21, 28, 0.88);
+      --card-bg: #151922;
+      --card-checked: #0e1117;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+      --text: #f4f4f6;
+      --text-muted: #8e95a2;
+      --text-dim: #5d6472;
+      --primary: #ffffff;
+      --primary-inverse: #0b0d12;
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-text: #f1f2f4;
+      --btn-border: rgba(255, 255, 255, 0.12);
+      --btn-primary-bg: #ffffff;
+      --btn-primary-text: #0b0d12;
+      --dock-bg: rgba(24, 29, 39, 0.94);
+      --dock-border: rgba(255, 255, 255, 0.18);
+      --dock-text: #cbd5e1;
+      --dock-icon: #ffffff;
+      --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      --hero-bg: linear-gradient(180deg, #181d28 0%, #12151d 100%);
+      --hero-border: rgba(255, 255, 255, 0.14);
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-purple: #c084fc;
+      --accent-rose: #fb7185;
+      --accent-blue: #60a5fa;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", -system-ui, sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+    
+    body { 
+      background-color: var(--bg); 
+      color: var(--text); 
+      min-height: 100vh;
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 100px); 
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Pürüzsüz Mikro Dokunma Hissi */
+    button, a, .tab-btn, .stop-card {
+      transition: transform 0.12s ease, opacity 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    button:active, a:active, .tab-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Minimalist SVG İkon Helper */
+    .icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* ==================== ÜST PANEL (HEADER) ==================== */
+    header {
+      background: var(--surface-glass);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding-top: max(calc(env(safe-area-inset-top, 0px) + 16px), 62px);
+      padding-left: max(env(safe-area-inset-left, 0px), 16px);
+      padding-right: max(env(safe-area-inset-right, 0px), 16px);
+      padding-bottom: 12px;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--text);
+    }
+    .brand-sub {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    /* Header Brand & Badges */
+    .brand-flag-badge {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--accent-blue);
+      font-size: 0.64rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
+      display: inline-block;
+    }
+    body.theme-dark .brand-flag-badge {
+      background: rgba(96, 165, 250, 0.16);
+      color: #93c5fd;
+    }
+
+    /* Asil Buton Çeşitleri */
+    .btn-clean {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--btn-text);
+      padding: 7px 12px;
+      min-height: 38px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      white-space: nowrap;
+    }
+    .btn-clean:active {
+      transform: scale(0.96);
+      opacity: 0.85;
+    }
+
+    .btn-clean.btn-hotel {
+      background: rgba(217, 119, 6, 0.1);
+      color: #b45309;
+      border-color: rgba(217, 119, 6, 0.28);
+      font-weight: 700;
+    }
+    body.theme-dark .btn-clean.btn-hotel {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-clean.btn-share {
+      background: rgba(5, 150, 105, 0.09);
+      color: #047857;
+      border-color: rgba(5, 150, 105, 0.25);
+      font-weight: 700;
+    }
+    body.theme-dark .btn-clean.btn-share {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-clean.btn-gps {
+      background: var(--primary);
+      color: var(--primary-inverse);
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .sunset-pill {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent-amber);
+      background: rgba(217, 119, 6, 0.09);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    .progress-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      background: rgba(5, 150, 105, 0.1);
+      border: 1px solid rgba(5, 150, 105, 0.22);
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    .header-info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--btn-bg);
+      border-radius: 999px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    /* ==================== ZARİF CANLI ŞEHİR ŞERİDİ ==================== */
+    .ticker-bar {
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s ease;
+    }
+    body.theme-light .ticker-bar {
+      background: linear-gradient(90deg, #fffaf5 0%, #ffffff 100%);
+      border-bottom-color: rgba(239, 68, 68, 0.18);
+    }
+    body.theme-dark .ticker-bar {
+      background: linear-gradient(90deg, #18151c 0%, #131720 100%);
+      border-bottom-color: rgba(239, 68, 68, 0.3);
+    }
+    .ticker-bar:active {
+      opacity: 0.85;
+    }
+    .ticker-tag {
+      font-size: 0.63rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #dc2626;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      padding: 3px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    body.theme-dark .ticker-tag {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+    .ticker-dot {
+      width: 6px;
+      height: 6px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+      animation: liveDotPulse 1.4s infinite;
+    }
+    @keyframes liveDotPulse {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(0.8); }
+    }
+    .ticker-text {
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      white-space: normal;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.75rem;
+      line-height: 1.35;
+      transition: opacity 0.2s ease;
+    }
+    .ticker-arrow {
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ==================== GÜN SEÇİCİ (SEGMENTED TABS) ==================== */
+    .day-nav-wrapper {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .day-nav-wrapper::-webkit-scrollbar { display: none; }
+    
+    .day-segmented {
+      display: inline-flex;
+      background: var(--btn-bg);
+      padding: 3px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      gap: 2px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 14px 14px 20px;
+    }
+
+    /* ==================== SIRADAKİ HEDEF KARTI ==================== */
+    .hero-focus-card {
+      background: var(--hero-bg);
+      border: 1px solid var(--hero-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--card-shadow);
+      display: none;
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .hero-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .hero-dist {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .hero-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .hero-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ==================== ARAMA & FİLTRE ==================== */
+    .filter-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 6px 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .search-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-input-wrap input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.78rem;
+      width: 100%;
+      outline: none;
+    }
+    .search-input-wrap input::placeholder {
+      color: var(--text-dim);
+    }
+    
+    .toggle-compact {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .toggle-compact input {
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* ==================== DURAK KARTI ==================== */
+    .stop-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+    .stop-card.completed {
+      background: var(--card-checked);
+      border-color: var(--border-subtle);
+      opacity: 0.5;
+    }
+    .stop-card.completed .card-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .stop-card.hide-completed { display: none !important; }
+
+    .card-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    /* Zarif Checkbox */
+    .custom-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.15s ease;
+      background: var(--btn-bg);
+    }
+    .completed .custom-check {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--primary-inverse);
+    }
+    .completed .custom-check::after {
+      content: "✓";
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .card-content { flex: 1; min-width: 0; }
+    
+    .card-top-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+    .chip {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.2px;
+    }
+    .chip.time {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+    }
+    body.theme-dark .chip.time {
+      background: rgba(96, 165, 250, 0.16);
+      color: #93c5fd;
+      border-color: rgba(96, 165, 250, 0.32);
+    }
+    .chip.food { background: rgba(217, 119, 6, 0.12); color: var(--accent-amber); }
+    .chip.free { background: rgba(5, 150, 105, 0.12); color: var(--accent-green); }
+    .chip.fun  { background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); }
+    .chip.star { background: rgba(225, 29, 72, 0.12); color: var(--accent-rose); }
+    .chip.shop { background: rgba(37, 99, 235, 0.12); color: var(--accent-blue); }
+
+    .dist-tag {
+      font-size: 0.67rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .card-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .card-thumb {
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border-subtle);
+      background: var(--btn-bg);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .card-desc {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin: 8px 0 10px;
+      line-height: 1.45;
+    }
+
+    /* Gün Özeti / Things To Do Başlığı */
+    .day-summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+      border-left: 3.5px solid var(--accent-blue);
+    }
+    .day-summary-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: inline-block;
+    }
+    .day-summary-title {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+    .day-summary-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .day-summary-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .day-metric {
+      font-size: 0.67rem;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .day-metric strong {
+      font-weight: 700;
+    }
+
+    /* Ana Hedef (Major Landmark Kartı - Kompakt Things To Do Havası) */
+    .stop-card.major-stop {
+      border: 1px solid var(--border);
+      padding: 0;
+      overflow: hidden;
+    }
+    .major-stop-cover {
+      width: 100%;
+      height: 85px;
+      position: relative;
+      overflow: hidden;
+      background: var(--btn-bg);
+    }
+    .major-stop-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .major-stop-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.65) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 14px;
+    }
+    .major-stop-pill {
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 0.63rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      letter-spacing: 0.5px;
+    }
+    .major-stop-body {
+      padding: 12px 14px 14px;
+    }
+
+    /* Yol Üstü Mola (Compact Stop - Daha Küçük & Zarif) */
+    .stop-card.compact-stop {
+      padding: 10px 12px;
+      background: var(--card-bg);
+      border: 1px dashed var(--border);
+      margin-bottom: 6px;
+      border-radius: var(--radius-md);
+    }
+    .stop-card.compact-stop .card-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .stop-card.compact-stop .card-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+    }
+    .stop-card.compact-stop .card-desc {
+      margin: 4px 0 8px;
+      font-size: 0.73rem;
+      line-height: 1.4;
+    }
+
+    /* Sarı Bilet Butonu */
+    .btn-ticket {
+      background: rgba(245, 158, 11, 0.12);
+      color: #b45309;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 6px 11px;
+      border-radius: var(--radius-sm);
+      font-size: 0.71rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    body.theme-dark .btn-ticket {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .btn-ticket:active {
+      transform: scale(0.96);
+      opacity: 0.85;
+    }
+
+    /* Kart Aksiyon Butonları */
+    .card-actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--btn-text);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .btn-act .icon {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+    }
+    .btn-act:active {
+      opacity: 0.8;
+      transform: scale(0.97);
+    }
+    .btn-act.hotel-return-btn {
+      color: var(--accent-blue);
+      border-color: rgba(37, 99, 235, 0.25);
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    /* Ulaşım Adım Çizgisi */
+    .transit-divider {
+      display: flex;
+      align-items: center;
+      padding: 6px 20px;
+      position: relative;
+    }
+    .transit-divider::before {
+      content: "";
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .transit-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ==================== DOCK BAR (ALT MENÜ - YÜKSEK KONTRAST) ==================== */
+    .dock-container {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 520px;
+      background: var(--dock-bg);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid var(--dock-border);
+      border-radius: 22px;
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 90;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--border);
+    }
+    .dock-item {
+      background: transparent;
+      border: none;
+      color: var(--dock-text);
+      font-size: 0.69rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 12px;
+      transition: all 0.15s ease;
+    }
+    .dock-item:active {
+      transform: scale(0.92);
+      background: var(--btn-bg);
+    }
+    .dock-item .dock-icon {
+      width: 20px;
+      height: 20px;
+      stroke: var(--dock-icon) !important;
+      stroke-width: 2;
+      fill: none !important;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: block;
+    }
+    .dock-item span {
+      display: block;
+      color: var(--dock-text);
+      line-height: 1;
+    }
+
+    /* ==================== MODAL SİSTEMİ (BOTTOM SHEET) ==================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-sheet {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px 24px 0 0;
+      max-width: 560px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 16px 20px calc(env(safe-area-inset-bottom, 0px) + 24px);
+      animation: sheetUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.2);
+      color: var(--text);
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 0 auto 14px;
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .sheet-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .sheet-close {
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modal İç Kartlar */
+    .sheet-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--card-shadow);
+    }
+    .sheet-card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sheet-card-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    /* Form ve Çevirici Alanları */
+    .sheet-input {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 0.85rem;
+      width: 100%;
+      outline: none;
+      margin-bottom: 8px;
+    }
+    .sheet-input:focus {
+      border-color: var(--primary);
+    }
+
+    .calc-input-box {
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--text);
+      font-size: 1.3rem;
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    .calc-input-box:focus {
+      border-color: var(--primary);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 0px) + 60px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--primary);
+      border: 1px solid var(--border);
+      color: var(--primary-inverse);
+      padding: 7px 15px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="theme-light">
+
+  <!-- Toast Mesajı -->
+  <div class="toast" id="toast">Bildirim</div>
+
+  <!-- Üst Başlık (Header) -->
+  <header>
+    <div class="header-row">
+      <div class="brand">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span class="brand-flag-badge">🇨🇿 PRAG</span>
+          <div class="brand-title">Gezi Rehberi</div>
+        </div>
+        <div class="brand-sub">16–20 Kasım 2026 • Canlı Seyahat Asistanı</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-clean" id="themeToggleBtn" onclick="toggleTheme()" title="Açık/Koyu Tema">
+          ☀️ Açık
+        </button>
+        <button class="btn-clean btn-hotel" id="hotelHeaderBtn" onclick="openModal('hotelModal')">
+          🏨 Otel
+        </button>
+        <button class="btn-clean btn-share" onclick="openShareModal()">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          Paylaş
+        </button>
+        <button class="btn-clean btn-gps" id="gpsBtn" onclick="requestGPS()">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          Konum
+        </button>
+      </div>
+    </div>
+    
+    <div class="header-info-bar">
+      <span class="sunset-pill">🌅 Gün Batımı: 16:18</span>
+      <span class="progress-pill" id="pCount">0 / 23 Tamamlandı</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="pBar"></div>
+    </div>
+  </header>
+
+  <!-- Canlı Şehir Şeridi (Ticker) -->
+  <div class="ticker-bar" onclick="openModal('newsModal')">
+    <div class="ticker-tag">
+      <span class="ticker-dot"></span>
+      CANLI AKIŞ
+    </div>
+    <span class="ticker-text" id="tickerText">Prag güncel şehir akışı yükleniyor...</span>
+    <span class="ticker-arrow">Bülten &rsaquo;</span>
+  </div>
+
+  <!-- Gün Seçici Segmentler -->
+  <div class="day-nav-wrapper">
+    <div class="day-segmented">
+      <button class="tab-btn active" onclick="switchDay('d1')">16 Kas Pzt</button>
+      <button class="tab-btn" onclick="switchDay('d2')">17 Kas Sal</button>
+      <button class="tab-btn" onclick="switchDay('d3')">18 Kas Çar</button>
+      <button class="tab-btn" onclick="switchDay('d4')">19 Kas Per</button>
+      <button class="tab-btn" onclick="switchDay('d5')">20 Kas Cum</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Filtre & Arama -->
+    <div class="filter-panel">
+      <div class="search-input-wrap">
+        <svg class="icon" style="color:var(--text-dim);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Durak veya mekan ara..." oninput="handleSearch()">
+      </div>
+      <label class="toggle-compact">
+        <input type="checkbox" id="hideDoneToggle" onchange="toggleHideDone()">
+        <span>Bitenleri Gizle</span>
+      </label>
+    </div>
+
+    <!-- ==================== GÜN 1: 16 KASIM PAZARTESİ ==================== -->
+    <div class="day-view" id="d1">
+      <!-- Gün Özeti Kartı -->
+      <div class="day-summary-card">
+        <div class="day-summary-badge">1. Gün • 16 Kasım Pazartesi</div>
+        <div class="day-summary-title">Prag'a Varış, Masalsı Eski Kent & Trenli Restoran</div>
+        <div class="day-summary-desc">Otele yerleşip kalın montları giydikten sonra Eski Kent Meydanı'nın masalsı sokaklarında ısınma yürüyüşü. 600 yıllık Astronomik Saat gösterisi ve çocuk için vagonlarla servis yapılan Výtopna tren restoranında akşam yemeği.</div>
+        <div class="day-summary-metrics">
+          <span class="day-metric">🚶 <strong>~2.8 km</strong> Yürüyüş</span>
+          <span class="day-metric">⏱️ <strong>~4.5 saat</strong> Süre</span>
+          <span class="day-metric">🎫 <strong>1 Rezervasyon</strong> (Výtopna)</span>
+          <span class="day-metric">👶 <strong>Puset & Çocuk</strong> Rahat zemin</span>
+        </div>
+      </div>
+
+      <div class="stop-card" data-id="1-1" data-lat="50.0880" data-lng="14.4200" data-title="Otele Giriş & Isınma Molası">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">14:00</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Otele Giriş & Isınma Molası</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=200&auto=format&fit=crop&q=80" alt="Otel" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Odaya yerleşme, çocukla yol yorgunluğunu atma ve Kasım ayı soğuğuna uygun kalın mont ve atkı hazırlığı.</div>
+            <div class="card-actions-bar">
+              <button class="btn-act" onclick="shareSingleStop(this, 'Otele Giriş & Isınma Molası')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Eşime İlet
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 10 dk Yürüme</div></div>
+
+      <!-- Yol Üstü Mola (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="1-2" data-lat="50.0875" data-lng="14.4213" data-title="Eski Kent Meydanı & Trdelník Tadımı">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">15:30</span>
+              <span class="chip food">Lezzet Molası</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Eski Kent Meydanı & Trdelník Tadımı</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1514517220017-8ce97a34a7b6?w=200&auto=format&fit=crop&q=80" alt="Trdelnik" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Trafiğe kapalı tarihi meydan; sokak tezgahında közde taze pişen sıcak tarçınlı baca tatlısı tadımı.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Old+Town+Square+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Eski Kent Meydanı & Trdelník', 'https://maps.apple.com/?daddr=Old+Town+Square+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 2 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Astronomik Saat Kulesi -->
+      <div class="stop-card major-stop" data-id="1-3" data-lat="50.0870" data-lng="14.4207" data-title="Astronomik Saat Kulesi Gösterisi">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1563784462386-044fd95e9852?w=800&auto=format&fit=crop&q=80" alt="Astronomik Saat Kulesi" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🌟 Ana Hedef • 600 Yıllık Şaheser</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">16:00</span>
+                <span class="chip fun">Tarihi Gösteri</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Astronomik Saat Kulesi Gösterisi</div>
+              </div>
+              <div class="card-desc">Saat başı hareket eden 12 havari figürünü, çan çalan iskeleti ve altın horozun ötüşünü kule önünde izleme. Kuleye çıkış için bilet gereklidir.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('astronomic')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Prague+Astronomical+Clock&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Astronomik Saat Kulesi', 'https://maps.apple.com/?daddr=Prague+Astronomical+Clock')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 3 dk Yürüme</div></div>
+
+      <!-- Yol Üstü Pazar (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="1-bonus" data-lat="50.0853" data-lng="14.4208" data-title="Havelská Tarihi Pazarı (1232)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">16:45</span>
+              <span class="chip star">Yol Üstü Pazar</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Havelská Tarihi Pazarı (1232)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=200&auto=format&fit=crop&q=80" alt="Pazar" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">El yapımı ahşap Çek kuklaları, minyatür mekanik oyuncaklar ve taze meyve tezgahlarının olduğu tarihi pazar.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Havelske+trziste+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Havelská Tarihi Pazarı', 'https://maps.apple.com/?daddr=Havelske+trziste+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 8 dk Yürüme</div></div>
+
+      <div class="stop-card" data-id="1-4" data-lat="50.0818" data-lng="14.4276" data-title="Výtopna Railway Restaurant">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">18:00</span>
+              <span class="chip food">Trenli Restoran</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Výtopna Railway Restaurant</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1538392665715-3739767ba5f1?w=200&auto=format&fit=crop&q=80" alt="Model Tren" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">İçecek ve burgerlerin masalara döşenmiş minyatür yük treni raylarıyla servis edildiği tematik mekan.</div>
+            <div class="card-actions-bar">
+              <button class="btn-ticket" onclick="openTicketInfoModal('vytopna')">
+                🎫 Rezervasyon Gerekli
+              </button>
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Vytopna+Railway+Restaurant+Vaclavske+namesti+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Výtopna Trenli Restoran', 'https://maps.apple.com/?daddr=Vytopna+Railway+Restaurant+Vaclavske+namesti+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GÜN 2: 17 KASIM SALI ==================== -->
+    <div class="day-view" id="d2" style="display:none;">
+      <!-- Gün Özeti Kartı -->
+      <div class="day-summary-card">
+        <div class="day-summary-badge">2. Gün • 17 Kasım Salı (Resmi Tatil)</div>
+        <div class="day-summary-title">Prag Kalesi, Kuğu Sahili & Kadife Devrimi Festivali</div>
+        <div class="day-summary-desc">Güne tepedeki masalsı Prag Kalesi ve saat 12:00 muhafız değişimiyle başlayıp Kampa kıyısındaki kuğuları besleme, tarihi Karl Köprüsü ve trafiğe kapalı Národní festival caddesinde açık hava etkinlikleri.</div>
+        <div class="day-summary-metrics">
+          <span class="day-metric">🚶 <strong>~4.2 km</strong> Yürüyüş (Tepe iniş)</span>
+          <span class="day-metric">⏱️ <strong>~7 saat</strong> Süre</span>
+          <span class="day-metric">🎫 <strong>1 Bilet</strong> (Prag Kalesi Devre B)</span>
+          <span class="day-metric">🎉 <strong>Ücretsiz Şenlik</strong> (Korzo Národní)</span>
+        </div>
+      </div>
+
+      <div class="stop-card" data-id="2-1" data-lat="50.0892" data-lng="14.3975" data-title="Schwarzenberg Sarayı (Ulusal Galeri)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">10:00</span>
+              <span class="chip free">Tatil Özel Ücretsiz</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Schwarzenberg Sarayı (Ulusal Galeri)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1549144511-f099e773c147?w=200&auto=format&fit=crop&q=80" alt="Saray" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Resmi tatile özel ücretsiz sergi; Bohemya zırhları, Barok tablolar ve saray terasından panoramik şehir manzarası.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Schwarzenberg+Palace+Prague&dirflg=r" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Schwarzenberg Sarayı', 'https://maps.apple.com/?daddr=Schwarzenberg+Palace+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 3 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Prag Kalesi -->
+      <div class="stop-card major-stop" data-id="2-2" data-lat="50.0909" data-lng="14.4005" data-title="Prag Kalesi & Muhafız Değişimi">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=800&auto=format&fit=crop&q=80" alt="Prag Kalesi" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🏰 Ana Hedef • Dünyanın En Büyük Antik Kalesi</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">11:15</span>
+                <span class="chip fun">Tarihi Simge</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Prag Kalesi & Muhafız Değişimi</div>
+              </div>
+              <div class="card-desc">Aziz Vitus Katedrali görkemi ve saat 12:00'de ana kapıda bando eşliğindeki resmi nöbet değişim seremonisi. Binaların iç turu için bilet gereklidir.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('castle')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Prague+Castle&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Prag Kalesi', 'https://maps.apple.com/?daddr=Prague+Castle')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 5 dk Yürüme</div></div>
+
+      <!-- Yol Üstü Mola (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="2-3" data-lat="50.0919" data-lng="14.4040" data-title="Altın Yol (Golden Lane)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">12:15</span>
+              <span class="chip fun">Minyatür Evler</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Altın Yol (Golden Lane)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1584646098378-0874589d76b1?w=200&auto=format&fit=crop&q=80" alt="Altin Yol" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Surlara yapışık inşa edilmiş minyatür renkli tarihi simyacı ve zanaatkar evleri. (Kale biletine dahildir).</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Golden+Lane+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Altın Yol', 'https://maps.apple.com/?daddr=Golden+Lane+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 12 dk İniş</div></div>
+
+      <!-- Yol Üstü Doğa Molası (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="2-bonus1" data-lat="50.0883" data-lng="14.4103" data-title="Cihelná Kuğu Sahili">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">13:15</span>
+              <span class="chip star">Doğa & Kuğular</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Cihelná Kuğu Sahili</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=200&auto=format&fit=crop&q=80" alt="Kugular" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Karl Köprüsü'nün yanı başında onlarca beyaz kuğu ve ördeğin su kenarına yanaştığı dinlenme noktası.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Cihelna+Prague+Swans&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Cihelná Kuğu Sahili', 'https://maps.apple.com/?daddr=Cihelna+Prague+Swans')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 4 dk Yürüme</div></div>
+
+      <div class="stop-card" data-id="2-4" data-lat="50.0864" data-lng="14.4087" data-title="Liechtenstein Sarayı Açık Kapı Günü">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">13:45</span>
+              <span class="chip free">Yılda 1 Gün Açık</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Liechtenstein Sarayı Açık Kapı Günü</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=200&auto=format&fit=crop&q=80" alt="Saray" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Kampa Adası'nda normalde halka kapalı olan Çekya Hükümeti konuk sarayının ücretsiz gezilmesi.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Liechtenstein+Palace+Kampa+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Liechtenstein Sarayı', 'https://maps.apple.com/?daddr=Liechtenstein+Palace+Kampa+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 3 dk Yürüme</div></div>
+
+      <!-- Yol Üstü Sanat (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="2-bonus2" data-lat="50.0862" data-lng="14.4069" data-title="John Lennon Duvarı & Kampa Bebekleri">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">14:30</span>
+              <span class="chip star">Sanat & Heykel</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">John Lennon Duvarı & Kampa Bebekleri</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1549488344-cbb6c34cf08b?w=200&auto=format&fit=crop&q=80" alt="Lennon" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Renkli barış duvarı ve Kampa Parkı'ndaki David Černý'nin devasa bronz bebek heykelleri.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Lennon+Wall+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'John Lennon Duvarı', 'https://maps.apple.com/?daddr=Lennon+Wall+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 3 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Karl Köprüsü -->
+      <div class="stop-card major-stop" data-id="2-5" data-lat="50.0865" data-lng="14.4114" data-title="Karl Köprüsü & Dilek Heykeli">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1562670652-e5947bddb335?w=800&auto=format&fit=crop&q=80" alt="Karl Köprüsü" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🌉 Ana Hedef • 650 Yıllık Tarihi Köprü</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">15:00</span>
+                <span class="chip fun">Tarihi Köprü</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Karl Köprüsü & Dilek Heykeli</div>
+              </div>
+              <div class="card-desc">Gotik taş köprüden yürüyüş; sokak müzisyenleri ve Aziz John Nepomuk kabartmasında dilek tutma geleneği.</div>
+              <div class="card-actions-bar">
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Charles+Bridge+Prague&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Karl Köprüsü', 'https://maps.apple.com/?daddr=Charles+Bridge+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 10 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Kadife Devrimi Festivali -->
+      <div class="stop-card major-stop" data-id="2-6" data-lat="50.0822" data-lng="14.4180" data-title="Národní Caddesi (Korzo Národní)">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&auto=format&fit=crop&q=80" alt="Národní Festivali" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🎉 Ana Etkinlik • Kadife Devrimi Festivali</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">16:15</span>
+                <span class="chip free">Festival Alanı</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Národní Caddesi (Korzo Národní)</div>
+              </div>
+              <div class="card-desc">Trafiğe kapatılan festival caddesi. Sokak tiyatroları, saat 17:11 ortak anma marşı ve yüzlerce renkli anma mumu.</div>
+              <div class="card-actions-bar">
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Narodni+trida+Prague&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Národní Caddesi Festivali', 'https://maps.apple.com/?daddr=Narodni+trida+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 2 dk Yürüme</div></div>
+
+      <!-- Yol Üstü Mola (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="2-bonus3" data-lat="50.0816" data-lng="14.4203" data-title="Dönen Franz Kafka Kafası (Quadrio)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">17:30</span>
+              <span class="chip star">Kinetik Sanat</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Dönen Franz Kafka Kafası (Quadrio)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=80" alt="Kafka" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">42 bağımsız paslanmaz çelik katmandan oluşan ve motorlarla sürekli dönen kinetik dev ayna heykel.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Head+of+Franz+Kafka+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Dönen Franz Kafka Kafası', 'https://maps.apple.com/?daddr=Head+of+Franz+Kafka+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 8 dk Yürüme</div></div>
+
+      <div class="stop-card" data-id="2-7" data-lat="50.0813" data-lng="14.4265" data-title="Vaclav Meydanı & Ulusal Müze">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">18:15</span>
+              <span class="chip fun">Meydan & Konser</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Vaclav Meydanı & Ulusal Müze</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?w=200&auto=format&fit=crop&q=80" alt="Meydan" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Gelecek İçin Konser açık hava sahnesi ve tepe noktada aydınlatılmış tarihi müzenin gece silüeti.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Wenceslas+Square+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Vaclav Meydanı & Müze', 'https://maps.apple.com/?daddr=Wenceslas+Square+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 12 dk / 🚋 Tram 9</div></div>
+
+      <div class="stop-card" data-id="2-8" data-lat="50.0906" data-lng="14.4259" data-title="Lokál Dlouhááá'da Akşam Yemeği">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">19:30</span>
+              <span class="chip food">Akşam Yemeği</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Lokál Dlouhááá'da Akşam Yemeği</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200&auto=format&fit=crop&q=80" alt="Yemek" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Çocukların sevdiği yumuşacık havuçlu kremalı soslu dana eti ve ekmek köftesi (Svíčková na smetaně).</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Lokal+Dlouhaaa+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Lokál Dlouhááá', 'https://maps.apple.com/?daddr=Lokal+Dlouhaaa+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GÜN 3: 18 KASIM ÇARŞAMBA ==================== -->
+    <div class="day-view" id="d3" style="display:none;">
+      <!-- Gün Özeti Kartı -->
+      <div class="day-summary-card">
+        <div class="day-summary-badge">3. Gün • 18 Kasım Çarşamba</div>
+        <div class="day-summary-title">Petřín Füniküleri, Lego Dünyası & Salomon Alışverişi</div>
+        <div class="day-summary-desc">Tamamen çocuk ve aile eğlencesine ayrılmış neşeli bir gün! Nostaljik fünikülerle tepeye çıkış, kahkaha aynaları labirenti, tarihi Café Savoy, dev Lego dünyası ve ardından avantajlı Salomon ayakkabı alışverişi.</div>
+        <div class="day-summary-metrics">
+          <span class="day-metric">🚶 <strong>~3.1 km</strong> Yürüyüş</span>
+          <span class="day-metric">⏱️ <strong>~6.5 saat</strong> Süre</span>
+          <span class="day-metric">🎫 <strong>3 Bilet</strong> (Füniküler, Aynalar, Lego)</span>
+          <span class="day-metric">🛍️ <strong>Salomon & Outlet</strong> Fırsatı</span>
+        </div>
+      </div>
+
+      <!-- Ana Hedef: Petřín Füniküleri -->
+      <div class="stop-card major-stop" data-id="3-1" data-lat="50.0825" data-lng="14.4039" data-title="Petřín Füniküleri (Lanovka)">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1517649763962-0c623266ddc0?w=800&auto=format&fit=crop&q=80" alt="Füniküler" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🚡 Ana Hedef • Nostaljik Dağ Raylısı</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">10:00</span>
+                <span class="chip fun">Tarihi Tren</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Petřín Füniküleri (Lanovka)</div>
+              </div>
+              <div class="card-desc">Újezd durağından füniküler treniyle Petřín Tepesi'ne manzaralı tırmanış. (PID biletiniz varsa ücretsizdir).</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('funicular')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Funicular+Railway+Ujezd+Prague&dirflg=r" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Petřín Füniküleri', 'https://maps.apple.com/?daddr=Funicular+Railway+Ujezd+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 2 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Aynalı Labirent -->
+      <div class="stop-card major-stop" data-id="3-2" data-lat="50.0833" data-lng="14.3969" data-title="Mirror Maze (Aynalı Labirent)">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80" alt="Aynalı Labirent" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🪞 Çocuk Favorisi • Kahkaha Aynaları</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">10:30</span>
+                <span class="chip fun">Çocuk Favorisi</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Mirror Maze (Aynalı Labirent)</div>
+              </div>
+              <div class="card-desc">Minyatür ahşap şato içinde ayna labirenti ve insanı komik şekillere sokan dev kahkaha aynaları.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('mirror')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Mirror+Maze+Petrin+Prague&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Mirror Maze Aynalı Labirent', 'https://maps.apple.com/?daddr=Mirror+Maze+Petrin+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 1 dk Yürüme</div></div>
+
+      <div class="stop-card" data-id="3-3" data-lat="50.0835" data-lng="14.3951" data-title="Petřín Gözlem Kulesi & Parkı">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">11:45</span>
+              <span class="chip fun">Panoramik Kule</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Petřín Gözlem Kulesi & Parkı</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&auto=format&fit=crop&q=80" alt="Kule" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Asansörle tepeye çıkış; kentin en yüksek noktasından Prag manzarası ve yaprak toplama yürüyüşü.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Petrin+Tower+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Petřín Kulesi', 'https://maps.apple.com/?daddr=Petrin+Tower+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚡 Füniküler + 🚶 7 dk</div></div>
+
+      <!-- Yol Üstü Mola (Compact Stop) -->
+      <div class="stop-card compact-stop" data-id="3-4" data-lat="50.0812" data-lng="14.4074" data-title="Café Savoy">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">13:30</span>
+              <span class="chip food">Tarihi Kafe</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Café Savoy</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=200&auto=format&fit=crop&q=80" alt="Kafe" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Tarihi salonda sıcak meyveli hamur tatlısı (Ovocné knedlíky) ve kıvamlı sıcak çikolata molası.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Cafe+Savoy+Prague&dirflg=w" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Café Savoy', 'https://maps.apple.com/?daddr=Cafe+Savoy+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 12 dk Yürüme</div></div>
+
+      <!-- Ana Hedef: Lego Müzesi -->
+      <div class="stop-card major-stop" data-id="3-5" data-lat="50.0825" data-lng="14.4190" data-title="Museum of Bricks (Lego Müzesi)">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=800&auto=format&fit=crop&q=80" alt="Lego Müzesi" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🧱 Ana Hedef • Avrupa'nın En Büyük Lego Koleksiyonu</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">15:30</span>
+                <span class="chip fun">Kapalı Alan & Lego</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Museum of Bricks (Lego Müzesi)</div>
+              </div>
+              <div class="card-desc">Prag tarihi anıtlarının dev Lego modelleri ve alt katta çocuklar için serbest montaj oyun havuzları.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('lego')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Museum+of+Bricks+Prague&dirflg=w" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Museum of Bricks (Lego)', 'https://maps.apple.com/?daddr=Museum+of+Bricks+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚶 5 dk Yürüme / 🚇 Metro B (1 durak)</div></div>
+
+      <!-- Salomon & Spor Alışverişi Fırsat Durağı -->
+      <div class="stop-card major-stop" data-id="3-6" data-lat="50.0891" data-lng="14.4287" data-title="Salomon Ayakkabı & Fırsat Alışverişi">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80" alt="Salomon Alışveriş" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">👟 Alışveriş Fırsatı • Salomon Outlet & Çek İndirimleri</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">16:45</span>
+                <span class="chip shop">Alışveriş & Outlet</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Salomon Ayakkabı & Fırsat Alışverişi</div>
+              </div>
+              <div class="card-desc">Salomon trail ve Gore-Tex ayakkabılarda avantajlı fiyatlar için 2 harika seçenek: <b>Şehir içinde</b> Palladium AVM içindeki dev <b>Sportisimo</b> ve Václav Meydanı'ndaki <b>HalfPrice</b> indirim reyonları; <b>veya</b> resmi fabrika satış mağazası olan <b>Salomon Factory Outlet (Fashion Arena)</b> (%30-%70 indirim).</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openModal('salomonModal')" style="background:rgba(37,99,235,0.12); color:var(--accent-blue); border-color:rgba(37,99,235,0.35);">
+                  👟 Salomon Rehberi & Taktikler
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Palladium+Shopping+Center+Prague&dirflg=w" target="_blank" title="Sportisimo Palladium Şubesi">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Palladium (Merkez)
+                </a>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Fashion+Arena+Prague+Outlet&dirflg=r" target="_blank" title="Fashion Arena Salomon Factory Outlet">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Fashion Arena (Outlet)
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Salomon Ayakkabı Alışverişi', 'https://maps.apple.com/?daddr=Palladium+Shopping+Center+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GÜN 4: 19 KASIM PERŞEMBE ==================== -->
+    <div class="day-view" id="d4" style="display:none;">
+      <!-- Gün Özeti Kartı -->
+      <div class="day-summary-card">
+        <div class="day-summary-badge">4. Gün • 19 Kasım Perşembe</div>
+        <div class="day-summary-title">Buharlı Lokomotifler & Tarihi Vyšehrad Kalesi</div>
+        <div class="day-summary-desc">Buharlı dev kara trenler ve tarihi uçakların sergilendiği Ulusal Teknik Müzesi, minyatür demiryolu maketi ve ardından gün batımında tarihi Vyšehrad surları ve masalsı çocuk oyun parkı.</div>
+        <div class="day-summary-metrics">
+          <span class="day-metric">🚶 <strong>~3.1 km</strong> Yürüyüş + Tramvay</span>
+          <span class="day-metric">⏱️ <strong>~6 saat</strong> Süre</span>
+          <span class="day-metric">🎫 <strong>2 Bilet</strong> (Teknik Müze, Vyšehrad)</span>
+          <span class="day-metric">🚋 <strong>Panoramik Tramvay</strong> Hat 12 & 7</span>
+        </div>
+      </div>
+
+      <!-- Ana Hedef: Ulusal Teknik Müzesi -->
+      <div class="stop-card major-stop" data-id="4-1" data-lat="50.0970" data-lng="14.4248" data-title="Ulusal Teknik Müzesi">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80" alt="Teknik Müze" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🚂 Ana Hedef • Dev Lokomotifler & Uçaklar</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">10:00</span>
+                <span class="chip fun">Lokomotif & Uçak</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Ulusal Teknik Müzesi</div>
+              </div>
+              <div class="card-desc">Devasa holünde yan yana dizili buharlı kara trenler, tavandan asılan tarihi uçaklar ve eski itfaiye araçları.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('technical')">
+                  🎫 Bilet Gerekli
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=National+Technical+Museum+Prague&dirflg=r" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Ulusal Teknik Müzesi', 'https://maps.apple.com/?daddr=National+Technical+Museum+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚋 Tram 12/20 (20 dk)</div></div>
+
+      <div class="stop-card" data-id="4-2" data-lat="50.0711" data-lng="14.4024" data-title="Království Železnic (Demiryolu Krallığı)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">14:00</span>
+              <span class="chip fun">Minyatür Trenler</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Království Železnic (Demiryolu Krallığı)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1538392665715-3739767ba5f1?w=200&auto=format&fit=crop&q=80" alt="Model Tren" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Düğmelerle kontrol edilen yüzlerce model tren ve simüle edilen interaktif gece-gündüz ışık döngüsü.</div>
+            <div class="card-actions-bar">
+              <button class="btn-ticket" onclick="openTicketInfoModal('kralovstvi')">
+                🎫 Bilet Gerekli
+              </button>
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Kralovstvi+zeleznic+Prague&dirflg=r" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Harita
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Království Železnic', 'https://maps.apple.com/?daddr=Kralovstvi+zeleznic+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚋 Tram 7 (10 dk)</div></div>
+
+      <!-- Ana Hedef: Vyšehrad Kalesi -->
+      <div class="stop-card major-stop" data-id="4-3" data-lat="50.0644" data-lng="14.4198" data-title="Vyšehrad Kalesi & Çocuk Parkı">
+        <div class="major-stop-cover">
+          <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&auto=format&fit=crop&q=80" alt="Vyšehrad Kalesi" loading="lazy">
+          <div class="major-stop-overlay">
+            <span class="major-stop-pill">🏰 Ana Hedef • Efsanevi Surlar & Nehir Gün Batımı</span>
+          </div>
+        </div>
+        <div class="major-stop-body">
+          <div class="card-layout">
+            <div class="custom-check"></div>
+            <div class="card-content">
+              <div class="card-top-tags">
+                <span class="chip time">16:00</span>
+                <span class="chip fun">Surlar & Manzara</span>
+                <span class="dist-tag">📍 --</span>
+              </div>
+              <div class="card-header-flex">
+                <div class="card-title">Vyšehrad Kalesi & Çocuk Parkı</div>
+              </div>
+              <div class="card-desc">Surlardan nehir ve köprüler gün batımı manzarası; kale bahçesinde ahşap masal heykelli çocuk parkı. Kazamatlar girişi biletlidir.</div>
+              <div class="card-actions-bar">
+                <button class="btn-ticket" onclick="openTicketInfoModal('vysehrad')">
+                  🎫 Bilet / Giriş
+                </button>
+                <a class="btn-act" href="https://maps.apple.com/?daddr=Vysehrad+Prague&dirflg=r" target="_blank">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                  Harita
+                </a>
+                <button class="btn-act" onclick="shareSingleStop(this, 'Vyšehrad Kalesi', 'https://maps.apple.com/?daddr=Vysehrad+Prague')">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Paylaş
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GÜN 5: 20 KASIM CUMA ==================== -->
+    <div class="day-view" id="d5" style="display:none;">
+      <!-- Gün Özeti Kartı -->
+      <div class="day-summary-card">
+        <div class="day-summary-badge">5. Gün • 20 Kasım Cuma</div>
+        <div class="day-summary-title">Otelden Çıkış & Havalimanı Transferi</div>
+        <div class="day-summary-desc">Unutulmaz Prag anılarıyla valizleri toparlayıp eve dönüş vakti. Sabah erken çıkışla Václav Havel Havalimanı'na rahat ve stressiz transfer.</div>
+        <div class="day-summary-metrics">
+          <span class="day-metric">🚕 <strong>Bolt veya Metro+Troleybüs</strong></span>
+          <span class="day-metric">⏱️ <strong>~45 dk</strong> Transfer Süresi</span>
+          <span class="day-metric">✈️ <strong>Dönüş Uçuşu</strong> Saat 10:00</span>
+        </div>
+      </div>
+
+      <div class="stop-card" data-id="5-1" data-lat="50.0880" data-lng="14.4200" data-title="Otelden Çıkış (Check-out)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">07:15</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Otelden Çıkış (Check-out)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=200&auto=format&fit=crop&q=80" alt="Otel" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Valizlerin teslim alınması ve havalimanına transfer için hareket.</div>
+            <div class="card-actions-bar">
+              <button class="btn-act" onclick="shareSingleStop(this, 'Otelden Çıkış')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Eşime İlet
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transit-divider"><div class="transit-label">🚕 Bolt / 🚇 Metro A + 🚌 Troleybüs 59</div></div>
+
+      <div class="stop-card" data-id="5-2" data-lat="50.1018" data-lng="14.2632" data-title="Václav Havel Havalimanı (PRG)">
+        <div class="card-layout">
+          <div class="custom-check"></div>
+          <div class="card-content">
+            <div class="card-top-tags">
+              <span class="chip time">08:00</span>
+              <span class="chip fun">Dönüş Uçuşu</span>
+              <span class="dist-tag">📍 --</span>
+            </div>
+            <div class="card-header-flex">
+              <div class="card-title">Václav Havel Havalimanı (PRG)</div>
+              <img class="card-thumb" src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?w=200&auto=format&fit=crop&q=80" alt="Havalimani" onerror="this.style.display='none'">
+            </div>
+            <div class="card-desc">Bagaj teslimi ve saat 10:00 dönüş uçuşu için pasaport ve güvenlik geçişi.</div>
+            <div class="card-actions-bar">
+              <a class="btn-act" href="https://maps.apple.com/?daddr=Vaclav+Havel+Airport+Prague" target="_blank">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Haritada Aç
+              </a>
+              <button class="btn-act" onclick="shareSingleStop(this, 'Havalimanı', 'https://maps.apple.com/?daddr=Vaclav+Havel+Airport+Prague')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Paylaş
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Temizle -->
+    <div style="text-align:center; margin: 30px 0 10px;">
+      <button class="btn-clean" onclick="resetAll()" style="color:var(--text-dim); font-size:0.7rem;">İşaretleri Sıfırla</button>
+    </div>
+  </div>
+
+  <!-- ==================== DOCK BAR (MINIMAL DOCK) ==================== -->
+  <div class="dock-container">
+    <button class="dock-item" onclick="openShareModal()">
+      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      <span>Paylaş</span>
+    </button>
+    <button class="dock-item" onclick="openModal('currencyModal')">
+      <svg class="dock-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+      <span>Hesapla</span>
+    </button>
+    <button class="dock-item" onclick="openModal('infoModal')">
+      <svg class="dock-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/><path d="M5 11l2-5h10l2 5"/></svg>
+      <span>Ulaşım</span>
+    </button>
+    <button class="dock-item" onclick="openModal('newsModal')">
+      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+      <span>Akış</span>
+    </button>
+    <a class="dock-item" href="https://maps.apple.com/?q=public+toilet" target="_blank">
+      <svg class="dock-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Acil WC</span>
+    </a>
+  </div>
+
+  <!-- ==================== MODAL 1: PAYLAŞIM ==================== -->
+  <div class="modal-overlay" id="shareModal" onclick="closeOnBackdrop(event, 'shareModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Eşimle WhatsApp'ta Paylaş</div>
+        <button class="sheet-close" onclick="closeModal('shareModal')">✕</button>
+      </div>
+
+      <div class="sheet-card">
+        <div class="sheet-card-title">Sıradaki Durağımızı Gönder</div>
+        <div class="sheet-card-desc" id="wpNextStopPreview">"Sıradaki durağımız: [Mekan]" formatında harita bağlantısıyla mesaj gönderir.</div>
+        <button class="btn-clean white" style="width:100%; justify-content:center;" onclick="shareCurrentStopToWP()">
+          Hedefi Gönder
+        </button>
+      </div>
+
+      <div class="sheet-card">
+        <div class="sheet-card-title">Bugünkü Tüm Rota Planını Gönder</div>
+        <div class="sheet-card-desc">Bugün ziyaret edeceğimiz tüm durakları sıralı liste olarak iletir.</div>
+        <button class="btn-clean white" style="width:100%; justify-content:center;" onclick="shareCurrentDayPlanToWP()">
+          Günlük Planı Gönder
+        </button>
+      </div>
+
+      <div class="sheet-card">
+        <div class="sheet-card-title">Uygulama Bağlantısını Gönder</div>
+        <div class="sheet-card-desc">Eşinizin kendi telefonunda da gezi asistanını açabilmesi için hazır link paylaşır.</div>
+        <button class="btn-clean white" style="width:100%; justify-content:center;" onclick="shareAppLinkToWP()">
+          Uygulama Linkini Gönder
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: CANLI DÖVİZ ÇEVİRİCİ ==================== -->
+  <div class="modal-overlay" id="currencyModal" onclick="closeOnBackdrop(event, 'currencyModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Çok Yönlü Kur Çevirici</div>
+        <button class="sheet-close" onclick="closeModal('currencyModal')">✕</button>
+      </div>
+
+      <!-- Para Birimi Seçici -->
+      <div style="display:flex; background:rgba(255,255,255,0.05); padding:3px; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-subtle);">
+        <button class="tab-btn active" id="tabCZK" onclick="setBaseCurrency('CZK')" style="flex:1;">CZK</button>
+        <button class="tab-btn" id="tabEUR" onclick="setBaseCurrency('EUR')" style="flex:1;">EUR</button>
+        <button class="tab-btn" id="tabTRY" onclick="setBaseCurrency('TRY')" style="flex:1;">TL</button>
+        <button class="tab-btn" id="tabUSD" onclick="setBaseCurrency('USD')" style="flex:1;">USD</button>
+      </div>
+
+      <!-- Durum Bilgisi -->
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:var(--text-muted); margin-bottom:12px; padding:0 4px;">
+        <span id="rateInfoText">1 CZK ≈ 2.28 TL | 1 EUR ≈ 24.40 CZK</span>
+        <button class="btn-clean" onclick="fetchLiveExchangeRates(true)" style="padding:3px 8px; font-size:0.65rem;">Yenile</button>
+      </div>
+
+      <!-- Hızlı Seçim Butonları -->
+      <div style="display:flex; gap:6px; overflow-x:auto; margin-bottom:12px; scrollbar-width:none;" id="quickChipsContainer"></div>
+
+      <input type="number" class="calc-input-box" id="czkInput" value="100" oninput="convertCurrency()">
+
+      <!-- Sonuç Izgarası -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;" id="calcResultsGrid"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: ULAŞIM & REHBER ==================== -->
+  <div class="modal-overlay" id="infoModal" onclick="closeOnBackdrop(event, 'infoModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Ulaşım & Şehir Rehberi</div>
+        <button class="sheet-close" onclick="closeModal('infoModal')">✕</button>
+      </div>
+
+      <div style="display:flex; background:rgba(255,255,255,0.05); padding:3px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-subtle);">
+        <button class="tab-btn active" id="tabTransit" onclick="switchGuideTab('transit')" style="flex:1;">Taksi & Ulaşım</button>
+        <button class="tab-btn" id="tabKids" onclick="switchGuideTab('kids')" style="flex:1;">Çocuk & Acil</button>
+        <button class="tab-btn" id="tabDict" onclick="switchGuideTab('dict')" style="flex:1;">Sözlük</button>
+      </div>
+
+      <!-- Sekme 1: Taksi & Toplu Taşıma -->
+      <div id="guideSectionTransit">
+        <!-- 1 Numaralı Öneri: PID Lítačka -->
+        <div class="sheet-card" style="border: 1.5px solid var(--accent-blue); background: rgba(37, 99, 235, 0.05);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+            <div class="sheet-card-title" style="color:var(--accent-blue); display:flex; align-items:center; gap:6px;">
+              <span>🚋</span> PID Lítačka (Resmi Ulaşım Uygulaması)
+            </div>
+            <span style="font-size:0.63rem; background:rgba(37,99,235,0.15); color:var(--accent-blue); padding:2px 6px; border-radius:4px; font-weight:800;">1 Numaralı Öneri</span>
+          </div>
+          <div class="sheet-card-desc">
+            Prag Belediyesi'nin (DPP) resmi uygulamasıdır. Canlı tramvay ve metro kalkış saatlerini saniyesiyle verir. <b>Telefondan Apple Pay ile dijital bilet</b> almanızı sağlar; böylece kağıt bilet damgalama ve <b>1.000 CZK ceza</b> riski tamamen ortadan kalkar!
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a class="btn-clean white" style="justify-content:center; text-decoration:none;" href="https://app.pidlitacka.cz/" target="_blank">
+              📲 PID Lítačka'yı Aç
+            </a>
+            <a class="btn-clean" style="justify-content:center; text-decoration:none;" href="https://maps.apple.com/?dirflg=r" target="_blank">
+              🗺️ Apple Transit
+            </a>
+          </div>
+        </div>
+
+        <div class="sheet-card">
+          <div class="sheet-card-title">Taksi Kullanımı & Bolt / Uber</div>
+          <div class="sheet-card-desc">Sokaktan taksi çevirmeyin. Fahiş fiyat riskine karşı sadece resmi uygulamaları tercih edin:</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a class="btn-clean white" style="justify-content:center;" href="https://bolt.eu" target="_blank">Bolt (Önerilen)</a>
+            <a class="btn-clean" style="justify-content:center;" href="https://m.uber.com" target="_blank">Uber</a>
+          </div>
+        </div>
+
+        <div class="sheet-card">
+          <div class="sheet-card-title">Bilet Türleri & Fiyatlar</div>
+          <div class="sheet-card-desc" style="margin-bottom:6px;">Biletler süre bazlıdır; süre bitene kadar metro, tramvay ve otobüsler arası aktarma serbesttir:</div>
+          <div style="font-size:0.74rem; display:flex; flex-direction:column; gap:5px;">
+            <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>⏱️ 30 Dakikalık (Kısa Mesafe)</span>
+              <span style="font-weight:700;">30 CZK</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>🔄 90 Dakikalık (Tüm Hatlar)</span>
+              <span style="font-weight:700;">40 CZK</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>🎫 24 Saatlik (1 Günlük Sınırsız)</span>
+              <span style="font-weight:700;">120 CZK</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:5px 0;">
+              <span>🎫 72 Saatlik (3 Günlük Sınırsız)</span>
+              <span style="font-weight:700;">330 CZK</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-card">
+          <div class="sheet-card-title" style="color:#f87171;">Önemli: Bilet Damgalama (Ceza: 1.000 CZK)</div>
+          <div class="sheet-card-desc">Kağıt bilet aldıysanız metro turnikesindeki veya tramvay içindeki sarı makineye <b>yalnızca İLK binişte 1 kez</b> okutup damgalatmalısınız. Süresi içindeki aktarmalarda tekrar damgalamayın.</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">💳 Tramvayların orta kapı direklerinde temassız kredi kartı okuyucusu vardır. Apple Pay dokundurarak kağıtsız bilet alabilirsiniz.</div>
+        </div>
+
+        <div class="sheet-card">
+          <div class="sheet-card-title">Panoramik Hatlar: Tramvay 22 & 42</div>
+          <div class="sheet-card-desc">Nehir boyu, Ulusal Tiyatro ve Prag Kalesi'nden geçen en güzel seyir hattıdır. Yorulmadan şehri izlemek için idealdir.</div>
+        </div>
+      </div>
+
+      <!-- Sekme 2: Çocuk & Acil -->
+      <div id="guideSectionKids" style="display:none;">
+        <div class="sheet-card">
+          <div class="sheet-card-title">6 Yaş Çocuk Kuralı</div>
+          <div class="sheet-card-desc">Prag'da 6 yaşındaki çocuklar metro, tramvay ve füniküleri <b>tamamen ücretsiz</b> kullanır. Kontrol olursa telefondaki pasaport fotoğrafı yeterlidir.</div>
+        </div>
+        <div class="sheet-card">
+          <div class="sheet-card-title">Acil İletişim</div>
+          <div class="sheet-card-desc">
+            • 112: Avrupa Acil Çağrı (İngilizce destekli)<br>
+            • Polis: 158 | Ambulans: 155<br>
+            • <a href="tel:+420224311402" style="color:var(--text); text-decoration:none; font-weight:700;">T.C. Prag Büyükelçiliği: +420 224 311 402</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sekme 3: Çekçe Sözlük -->
+      <div id="guideSectionDict" style="display:none;">
+        <div class="sheet-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700; color:var(--text); font-size:0.85rem;">Kde je toaleta?</div>
+            <button class="btn-clean" onclick="speakText('Kde je toaleta?')">Seslendir</button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Tuvalet nerede? <i>(Gıde ye toaleta?)</i></div>
+        </div>
+
+        <div class="sheet-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700; color:var(--text); font-size:0.85rem;">Účet, prosím.</div>
+            <button class="btn-clean" onclick="speakText('Účet, prosím.')">Seslendir</button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Hesap, lütfen. <i>(Uçet, prosiim)</i></div>
+        </div>
+
+        <div class="sheet-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700; color:var(--text); font-size:0.85rem;">Vodu, prosím.</div>
+            <button class="btn-clean" onclick="speakText('Vodu, prosím.')">Seslendir</button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Su, lütfen. <i>(Vodu, prosiim)</i></div>
+        </div>
+
+        <div class="sheet-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700; color:var(--text); font-size:0.85rem;">Dobrý den / Děkuji</div>
+            <button class="btn-clean" onclick="speakText('Dobrý den. Děkuji.')">Seslendir</button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">İyi günler / Teşekkürler <i>(Dobrii den / Dyekuyi)</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: CANLI ŞEHİR AKIŞI ==================== -->
+  <div class="modal-overlay" id="newsModal" onclick="closeOnBackdrop(event, 'newsModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Prag Şehir Akışı & Olaylar</div>
+        <button class="sheet-close" onclick="closeModal('newsModal')">✕</button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:var(--text-muted); margin-bottom:12px; padding:0 4px;">
+        <span id="newsLastUpdated">Otomatik güncelleniyor</span>
+        <button class="btn-clean" onclick="fetchLiveNews(true)" style="padding:3px 8px; font-size:0.65rem;">Yenile</button>
+      </div>
+
+      <div id="newsListContainer"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 5: KONAKLAMA & OTEL AYARLARI ==================== -->
+  <div class="modal-overlay" id="hotelModal" onclick="closeOnBackdrop(event, 'hotelModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">🏨 Otel & Konaklama Ayarı</div>
+        <button class="sheet-close" onclick="closeModal('hotelModal')">✕</button>
+      </div>
+
+      <div class="sheet-card" style="margin-bottom:12px;">
+        <div class="sheet-card-title">En Kolay Otel Belirleme</div>
+        <div class="sheet-card-desc">
+          Otelinizin sadece adını yazın veya otele vardığınızda tek dokunuşla <b>"Oteldeyim, Burayı Kaydet"</b> butonuna basın. Gezideki tüm duraklar ve <b>"Otele Dön"</b> yol tarifleri bu konuma göre otomatik güncellenir.
+        </div>
+        
+        <label style="font-size:0.75rem; font-weight:700; color:var(--text); margin-bottom:4px; display:block;">Otel / Tesis Adı</label>
+        <input type="text" class="sheet-input" id="hotelNameInput" placeholder="Örn: Hotel Kings Court veya Grand Bohemia" style="font-size:0.95rem; font-weight:600; padding:12px;">
+
+        <div style="margin: 10px 0;">
+          <button class="btn-clean" style="width:100%; justify-content:center; padding:11px; font-weight:700; background:rgba(37,99,235,0.08); color:var(--accent-blue); border:1.5px solid rgba(37,99,235,0.25);" onclick="useCurrentLocationAsHotel()">
+            📍 Oteldeyim, Burayı Kaydet (Canlı GPS)
+          </button>
+        </div>
+
+        <!-- Popüler Prag Otel Bölgeleri -->
+        <div style="margin-top:10px;">
+          <div style="font-size:0.7rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">Veya Popüler Bir Bölge Seçin:</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+            <button class="btn-clean" style="justify-content:center;" onclick="setHotelPreset('Staré Město (Eski Kent)', 'Staroměstské náměstí, Prag 1', 50.0875, 14.4213)">🏛️ Staré Město</button>
+            <button class="btn-clean" style="justify-content:center;" onclick="setHotelPreset('Malá Strana (Köprü Yanı)', 'Malostranské náměstí, Prag 1', 50.0883, 14.4042)">🏰 Malá Strana</button>
+            <button class="btn-clean" style="justify-content:center;" onclick="setHotelPreset('Nové Město (Wenceslas)', 'Václavské náměstí, Prag 1', 50.0815, 14.4268)">🛍️ Wenceslas</button>
+            <button class="btn-clean" style="justify-content:center;" onclick="setHotelPreset('Florenc / Karlín', 'Křižíkova, Prag 8', 50.0910, 14.4420)">🚇 Florenc</button>
+          </div>
+        </div>
+
+        <details style="margin-top:12px;">
+          <summary style="font-size:0.7rem; color:var(--text-dim); cursor:pointer;">Gelişmiş Adres & Koordinat (İsteğe Bağlı)</summary>
+          <div style="margin-top:8px;">
+            <input type="text" class="sheet-input" id="hotelAddressInput" placeholder="Adres: U Obecního domu 3, Prag">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <input type="number" step="0.0001" class="sheet-input" id="hotelLatInput" placeholder="Enlem (50.0880)">
+              <input type="number" step="0.0001" class="sheet-input" id="hotelLngInput" placeholder="Boylam (14.4200)">
+            </div>
+            <a class="btn-clean" id="hotelMapsLinkPreview" style="margin-top:6px; width:100%; justify-content:center;" href="https://maps.apple.com/?q=Prague" target="_blank">
+              🗺️ Harita Önizleme
+            </a>
+          </div>
+        </details>
+      </div>
+
+      <button class="btn-clean white" style="width:100%; justify-content:center; padding:12px 14px; font-size:0.85rem; font-weight:700;" onclick="saveHotelSettings()">
+        💾 Oteli Kaydet & Rotaları Güncelle
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 6: BİLET BİLGİSİ (TICKET MODAL) ==================== -->
+  <div class="modal-overlay" id="ticketModal" onclick="closeOnBackdrop(event, 'ticketModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title" id="ticketModalTitle">🎫 Bilet & Giriş Bilgisi</div>
+        <button class="sheet-close" onclick="closeModal('ticketModal')">✕</button>
+      </div>
+
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-amber);">
+        <div style="font-size: 0.72rem; font-weight: 800; color: var(--accent-amber); margin-bottom: 4px;">FİZİKSEL GİŞE & YERİNDE SATIN ALMA</div>
+        <div class="sheet-card-desc" id="ticketPhysicalInfo" style="color: var(--text); font-weight: 500; font-size: 0.8rem; line-height: 1.45; margin-bottom: 4px;">
+          --
+        </div>
+      </div>
+
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-blue);">
+        <div style="font-size: 0.72rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 4px;">MOBİL / RESMİ ONLİNE BİLET</div>
+        <div class="sheet-card-desc" id="ticketOnlineInfo" style="color: var(--text-muted); font-size: 0.77rem; line-height: 1.45; margin-bottom: 10px;">
+          --
+        </div>
+        <a class="btn-clean white" id="ticketOnlineBtn" href="#" target="_blank" style="width: 100%; justify-content: center; text-decoration: none;">
+          📲 Resmi Bilet Sayfasını Aç
+        </a>
+      </div>
+
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-green);">
+        <div style="font-size: 0.72rem; font-weight: 800; color: var(--accent-green); margin-bottom: 4px;">👶 6 YAŞ ÇOCUK & FİYAT DURUMU</div>
+        <div class="sheet-card-desc" id="ticketPriceInfo" style="color: var(--text-muted); font-size: 0.77rem; line-height: 1.45; margin-bottom: 0;">
+          --
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 7: SALOMON AYAKKABI & OUTLET REHBERİ ==================== -->
+  <div class="modal-overlay" id="salomonModal" onclick="closeOnBackdrop(event, 'salomonModal')">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">👟 Salomon & Outdoor Alışveriş Rehberi</div>
+        <button class="sheet-close" onclick="closeModal('salomonModal')">✕</button>
+      </div>
+
+      <!-- 1. Seçenek: Resmi Fabrika Outlet -->
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-blue);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:0.72rem; font-weight:800; color:var(--accent-blue);">1. SEÇENEK • RESMİ FABRİKA OUTLET</span>
+          <span style="font-size:0.65rem; background:rgba(37,99,235,0.12); color:var(--accent-blue); padding:2px 6px; border-radius:4px; font-weight:700;">%30 - %70 İndirim</span>
+        </div>
+        <div class="sheet-card-title" style="font-size:0.92rem; margin-bottom:4px;">Salomon Factory Outlet (Fashion Arena)</div>
+        <div class="sheet-card-desc" style="font-size:0.78rem; line-height:1.45; color:var(--text-muted); margin-bottom:8px;">
+          Prag ve Çekya'daki tek resmi <b>Salomon Factory Store</b> mağazasıdır. Speedcross, X-Ultra, Trailster, Gore-Tex su geçirmez modeller, outdoor montlar ve koşu çantalarında doğrudan fabrika/sezon sonu indirimi sunar.
+        </div>
+        <div style="background:var(--btn-bg); border-radius:8px; padding:8px 10px; font-size:0.72rem; line-height:1.4; color:var(--text); margin-bottom:10px;">
+          🚇 <b>Çocukla Kolay Ulaşım:</b> Můstek veya Staroměstská'dan <b>Yeşil Metro (A)</b> ile son durak <b>Depo Hostivař</b>'a gidin (~15 dk). İstasyon önünden kalkan <b>Ücretsiz Doğrudan Fashion Arena Shuttle</b> otobüsüne binin (8 dk sürer, kapıya bırakır).<br>
+          ⏰ <b>Çalışma Saatleri:</b> Her gün 10:00 - 20:00 açık.
+        </div>
+        <div style="display:flex; gap:6px;">
+          <a class="btn-clean white" href="https://maps.apple.com/?daddr=Fashion+Arena+Prague+Outlet&dirflg=r" target="_blank" style="flex:1; justify-content:center; text-decoration:none;">
+            🗺️ Outlet Yol Tarifi
+          </a>
+          <a class="btn-clean" href="https://www.fashion-arena.cz/obchody/salomon" target="_blank" style="justify-content:center; text-decoration:none;">
+            🌐 Mağaza Detayı
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Seçenek: Sportisimo -->
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-amber);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:0.72rem; font-weight:800; color:var(--accent-amber);">2. SEÇENEK • ŞEHİR MERKEZİNDE EN İYİ ÇEK FİYATI</span>
+          <span style="font-size:0.65rem; background:rgba(217,119,6,0.12); color:var(--accent-amber); padding:2px 6px; border-radius:4px; font-weight:700;">Výprodej (İndirim)</span>
+        </div>
+        <div class="sheet-card-title" style="font-size:0.92rem; margin-bottom:4px;">Sportisimo (Palladium AVM & Nový Smíchov)</div>
+        <div class="sheet-card-desc" style="font-size:0.78rem; line-height:1.45; color:var(--text-muted); margin-bottom:8px;">
+          Çekya'nın en büyük spor perakende devi ve Salomon'un ana yetkili satıcısıdır. Çek Korunası fiyat avantajının yanı sıra mağazanın arkasındaki <b>"Výprodej" (Clearance / Tasfiye)</b> raflarında Salomon Speedcross ve yürüyüş modelleri çok uygun fiyatlara iner.
+        </div>
+        <div style="background:var(--btn-bg); border-radius:8px; padding:8px 10px; font-size:0.72rem; line-height:1.4; color:var(--text); margin-bottom:10px;">
+          📍 <b>18 Kasım Çarşamba:</b> Palladium AVM (-2. kat, Náměstí Republiky) — Lego Müzesi'nden yürüyerek 10 dk veya Metro B ile 1 durak.<br>
+          📍 <b>19 Kasım Perşembe Alternatifi:</b> OC Nový Smíchov Şubesi — 4. gün ziyaret edeceğiniz Království Železnic'in hemen bitişiğindedir!
+        </div>
+        <a class="btn-clean white" href="https://maps.apple.com/?daddr=Palladium+Shopping+Center+Prague&dirflg=w" target="_blank" style="width:100%; justify-content:center; text-decoration:none;">
+          🗺️ Palladium Sportisimo'ya Yürü
+        </a>
+      </div>
+
+      <!-- 3. Seçenek: HalfPrice -->
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-rose);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:0.72rem; font-weight:800; color:var(--accent-rose);">3. SEÇENEK • WENCESLAS DEV OFF-PRICE MAĞAZASI</span>
+          <span style="font-size:0.65rem; background:rgba(225,29,72,0.12); color:var(--accent-rose); padding:2px 6px; border-radius:4px; font-weight:700;">%40 - %70 Fırsat</span>
+        </div>
+        <div class="sheet-card-title" style="font-size:0.92rem; margin-bottom:4px;">HalfPrice Flagship Store (Václavské Náměstí 21)</div>
+        <div class="sheet-card-desc" style="font-size:0.78rem; line-height:1.45; color:var(--text-muted); margin-bottom:8px;">
+          Avrupa'nın popüler off-price zincirinin Prag'daki çok katlı ana mağazası. Ayakkabı reyonunda Salomon, Merrell, Columbia modelleri numaralara göre dizilir. Şansınıza numaranız denk gelirse piyasa fiyatının çok altına alabilirsiniz. Lego Müzesi'ne sadece 400m mesafededir.
+        </div>
+        <a class="btn-clean" href="https://maps.apple.com/?daddr=Vaclavske+namesti+21+Prague&dirflg=w" target="_blank" style="width:100%; justify-content:center; text-decoration:none;">
+          🗺️ HalfPrice Václavské'ye Yürü (5 dk)
+        </a>
+      </div>
+
+      <!-- 4. Kart: Tax-Free -->
+      <div class="sheet-card" style="border-left: 4px solid var(--accent-green);">
+        <div style="font-size:0.72rem; font-weight:800; color:var(--accent-green); margin-bottom:4px;">💶 EKSTRA %12 - %14 TAX-FREE (VERGİ İADESİ) TÜYOSU</div>
+        <div class="sheet-card-desc" style="font-size:0.76rem; line-height:1.45; color:var(--text); margin-bottom:4px;">
+          Çekya'da aynı mağazadan tek faturada <b>2.001 CZK (~80 €)</b> ve üzeri harcama yaptığınızda kasadan <b>"Tax-Free Form"</b> isteyin. Dönüş günü (20 Kasım Cuma) havalimanında gümrük masasına fişi ve ayakkabı kutusunu gösterip damgalatarak %21 KDV'nin ~%12-14'ünü nakit veya karta iade alabilirsiniz.
+        </div>
+      </div>
+
+      <!-- 5. Kart: 17 Kasım Uyarısı -->
+      <div class="sheet-card" style="border-left: 4px solid #64748b; background:rgba(100,116,139,0.06);">
+        <div style="font-size:0.72rem; font-weight:800; color:var(--text-muted); margin-bottom:4px;">ℹ️ NEDEN 17 KASIM DEĞİL?</div>
+        <div class="sheet-card-desc" style="font-size:0.75rem; line-height:1.45; color:var(--text-dim); margin-bottom:0;">
+          17 Kasım Salı Çekya'da resmi tatildir ve kanun gereği 200 m²'den büyük tüm mağazalar ve AVM'ler kapalıdır. Bu nedenle Salomon alışverişinizi 18 Kasım Çarşamba veya 19 Kasım Perşembe günlerinde yapmak en doğru tercihtir.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'prag_trip_v3';
+    const COORDS_KEY = 'prag_saved_coords';
+    const RATES_KEY = 'prag_exchange_rates';
+    const THEME_KEY = 'prag_theme_mode';
+    const HOTEL_KEY = 'prag_hotel_info';
+    
+    let userLat = null, userLng = null;
+    let activeDay = 'd1';
+
+    let hotelInfo = {
+      name: "Otel Henüz Seçilmedi",
+      address: "Tarihi Merkez, Staré Město, Prag",
+      lat: 50.0880,
+      lng: 14.4200
+    };
+
+    const dayLabels = {
+      'd1': '16 Kasım Pazartesi: Otele Giriş & Tarihi Merkez',
+      'd2': '17 Kasım Salı: Resmi Tatil & Festival',
+      'd3': '18 Kasım Çarşamba: Füniküler, Lego & Salomon Alışverişi',
+      'd4': '19 Kasım Perşembe: Lokomotifler & Surlar',
+      'd5': '20 Kasım Cuma: Dönüş Günü'
+    };
+
+    let exchangeRates = {
+      tryRate: 2.28,
+      eurRate: 0.0411,
+      usdRate: 0.0461,
+      lastUpdated: null
+    };
+    let selectedBaseCurrency = 'CZK';
+
+    const chipPresets = {
+      'CZK': [
+        { label: '50 CZK', val: 50 },
+        { label: '100 CZK (Trdelník)', val: 100 },
+        { label: '250 CZK (Öğün)', val: 250 },
+        { label: '500 CZK', val: 500 }
+      ],
+      'EUR': [
+        { label: '5 €', val: 5 },
+        { label: '10 €', val: 10 },
+        { label: '20 € (Yemek)', val: 20 },
+        { label: '50 €', val: 50 }
+      ],
+      'TRY': [
+        { label: '100 TL', val: 100 },
+        { label: '250 TL', val: 250 },
+        { label: '500 TL (Yemek)', val: 500 },
+        { label: '1000 TL', val: 1000 }
+      ],
+      'USD': [
+        { label: '5 $', val: 5 },
+        { label: '10 $', val: 10 },
+        { label: '20 $', val: 20 },
+        { label: '50 $', val: 50 }
+      ]
+    };
+
+    const defaultTurkishNews = [
+      {
+        title: "17 Kasım Kadife Devrimi Festivali",
+        summary: "Národní caddesi trafiğe kapatılarak sokak tiyatroları ve açık hava konserlerine ev sahipliği yapıyor. Saat 17:11'de dev anma marşı söylenecek.",
+        source: "Belediye Bülteni",
+        time: "Güncel",
+        url: "https://www.dikyzemuzem.cz/en/"
+      },
+      {
+        title: "Kasım Ayı Soğuk Uyarısı",
+        summary: "Hava sıcaklığı gün batımından (16:18) sonra 2°C seviyelerine iniyor. Karl Köprüsü ve nehir kıyısı yürüyüşlerinde rüzgara karşı sıkı giyinin.",
+        source: "Meteoroloji",
+        time: "1 sa önce",
+        url: "https://www.chmi.cz/"
+      },
+      {
+        title: "Noel Pazarı Hazırlıkları Başladı",
+        summary: "Eski Kent Meydanı'na geleneksel ahşap kulübeler ve dev çam ağacı yerleştirilmeye başlandı. Sıcak trdelník ve svařák tezgahları kuruluyor.",
+        source: "Prague Morning",
+        time: "3 sa önce",
+        url: "https://www.praguemorning.cz/"
+      },
+      {
+        title: "Tramvay 9 ve 22 Hatları Sıklaştırıldı",
+        summary: "Tarihi merkez ile kale arasındaki yoğunluk sebebiyle tramvay seferleri 4-6 dakika aralığına indirildi.",
+        source: "DPP Ulaşım",
+        time: "Bugün",
+        url: "https://www.dpp.cz/en"
+      }
+    ];
+
+    let pragueNewsItems = [...defaultTurkishNews];
+
+    async function translateTextToTurkish(text) {
+      if (!text || typeof text !== 'string') return '';
+      const clean = text.trim();
+      if (!clean) return '';
+      try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=tr&dt=t&q=${encodeURIComponent(clean)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data && data[0] && Array.isArray(data[0])) {
+          return data[0].map(segment => segment[0]).join('').trim();
+        }
+      } catch(err) {
+        console.warn('Otomatik çeviri servisi:', err);
+      }
+      return clean;
+    }
+
+    const ticketDatabase = {
+      astronomic: {
+        title: "Eski Kent Astronomik Saat Kulesi",
+        physical: "Eski Belediye Sarayı (Staroměstská radnice) zemin kat bilet ofisinden nakit veya temassız kartla alınabilir. Sabah 09:00 - 10:30 arası gişede sıra az olur.",
+        online: "Prague.eu resmi portalından veya GetYourGuide üzerinden mobil bilet alınabilir. Sıra beklemeden doğrudan turnikeden karekod okutulur.",
+        onlineUrl: "https://prague.eu/en/object/places/188/old-town-hall-with-astronomical-clock",
+        price: "Yetişkin ~300 CZK (~12 €). <b>0-6 yaş arası çocuklar için giriş tamamen ÜCRETSİZDİR</b>. Kuleye çıkışta asansör mevcuttur."
+      },
+      vytopna: {
+        title: "Výtopna Demiryolu Restoranı",
+        physical: "Václavské náměstí 56 girişindeki danışmadan sıra veya boş masa sorulabilir; ancak çocukla kapıda beklememek için kesinlikle önceden online rezervasyon şarttır.",
+        online: "Výtopna resmi internet sitesinden tarih ve saat seçilerek ÜCRETSİZ masa rezervasyonu yapılır. Rezervasyon onayı e-posta ile anında gelir.",
+        onlineUrl: "https://vytopna.cz/en",
+        price: "Giriş bileti yoktur. İçecekler tren vagonuyla masaya servis edilir (tren servis bedeli kişi başı ~50 CZK). 6 yaş çocuk için unutulmazdır."
+      },
+      castle: {
+        title: "Prag Kalesi & Aziz Vitus (Devre B)",
+        physical: "Kale 2. ve 3. avlularındaki 'Prague Castle Tourist Information' gişelerinden fiziki kart bilet temin edilebilir. Avlularda dolaşmak ücretsizdir, katedralin içi ve Altın Yol biletlidir.",
+        online: "Prag Kalesi resmi web sitesi (hrad.cz) üzerinden temin edilebilir. Mobil bilet katedral ve Altın Yol turnikelerinde telefondan okutulur.",
+        onlineUrl: "https://www.hrad.cz/en/prague-castle-for-visitors/tickets",
+        price: "Ana Tur Devresi (Aziz Vitus, Eski Kraliyet Sarayı, Aziz Yorgi Bazilikası, Altın Yol): Yetişkin 450 CZK (~18 €). <b>6 yaş ve altı çocuklar ÜCRETSİZDİR</b>. Aile bileti (2 yetişkin + çocuk) avantajlıdır."
+      },
+      funicular: {
+        title: "Petřín Füniküleri (Lanovka na Petřín)",
+        physical: "Újezd alt istasyonundaki sarı DPP bilet makinelerinden (temassız kart geçerli) veya istasyon gişesinden fiziki bilet alınır.",
+        online: "Prag'ın resmi ulaşım uygulaması <b>PID Lítačka</b> üzerinden 'Lanovka / Funicular' bileti anında satın alınabilir.",
+        onlineUrl: "https://app.pidlitacka.cz/",
+        price: "Tek yön 60 CZK (~2.4 €). <b>ÖNEMLİ İPUCU:</b> 24 saatlik veya 72 saatlik genel toplu taşıma biletiniz varsa füniküler <b>ÜCRETSİZDİR</b>! 6 yaş altı çocuklara daima ÜCRETSİZDİR."
+      },
+      mirror: {
+        title: "Mirror Maze (Aynalı Labirent)",
+        physical: "Petřín Tepesi'nde Aynalar Labirenti giriş kapısındaki tarihi ahşap bilet gişesinden temassız kart veya nakit ile alınabilir.",
+        online: "Prague City Tourism (prague.eu) resmi bilet sistemi üzerinden online e-bilet alınabilir.",
+        onlineUrl: "https://prague.eu/en/object/places/114/mirror-maze-on-petrin-hill",
+        price: "Yetişkin 150 CZK (~6 €), İndirimli / Çocuk 100 CZK. <b>6 yaş altı çocuklar ÜCRETSİZDİR</b>. İçi sıcaktır, soğuk havada mola için harikadır."
+      },
+      lego: {
+        title: "Museum of Bricks (Lego Müzesi)",
+        physical: "Národní 31 caddesinde müzenin giriş katındaki Lego mağazası kasasından fiziki bilet alınabilir.",
+        online: "Muzeumlega.cz resmi web sitesinden online olarak hızlı bilet alınabilir.",
+        onlineUrl: "https://www.muzeumlega.cz/en",
+        price: "Yetişkin ~300 CZK (~12 €). Çocuk bileti boya göredir (120 cm altı ~200 CZK, bebekler ücretsiz). Alt katta dev serbest parça oyun alanı bulunur."
+      },
+      technical: {
+        title: "Ulusal Teknik Müzesi (Národní technické muzeum)",
+        physical: "Kostelní 42 adresindeki ana müze binası giriş holündeki gişelerden nakit veya kartla alınır.",
+        online: "Ntm.cz resmi web sitesinden e-bilet olarak temin edilebilir.",
+        onlineUrl: "https://www.ntm.cz/en",
+        price: "Yetişkin 280 CZK (~11 €). <b>6 yaş altı çocuklar ÜCRETSİZDİR</b>. Devasa lokomotif holü çocukların en çok büyülendiği bölümdür."
+      },
+      kralovstvi: {
+        title: "Království Železnic (Model Demiryolu)",
+        physical: "Stroupežnického 23 (Anděl) alışveriş merkezi alt kat giriş gişesinden satın alınabilir.",
+        online: "Kralovstvi-zeleznic.cz resmi sitesinden online e-bilet alınabilir.",
+        onlineUrl: "https://www.kralovstvi-zeleznic.cz/en",
+        price: "Yetişkin ~350 CZK, Çocuk ~220 CZK (1 metre altı ücretsiz). Yüzlerce düğmeyle kontrol edilen interaktif trenler mevcuttur."
+      },
+      vysehrad: {
+        title: "Vyšehrad Kalesi & Kazamatlar",
+        physical: "Špička Bilgi Merkezi (Cihelná brána) içerisindeki bilet masasından alınır. Kale surlarında ve çocuk parkında dolaşmak ÜCRETSİZDİR.",
+        online: "Praha-vysehrad.cz resmi sitesi üzerinden temin edilebilir.",
+        onlineUrl: "https://praha-vysehrad.cz/en/",
+        price: "Açık hava alanları, surlar ve ahşap masal parkı <b>TAMAMEN ÜCRETSİZ</b>. Sadece yeraltı tünelleri (Gorlice) giriş yetişkin 150 CZK, 6 yaş altı çocuk ÜCRETSİZDİR."
+      }
+    };
+
+    function openTicketInfoModal(key) {
+      haptic();
+      const data = ticketDatabase[key];
+      if (!data) return;
+      document.getElementById('ticketModalTitle').textContent = '🎫 ' + data.title;
+      document.getElementById('ticketPhysicalInfo').innerHTML = data.physical;
+      document.getElementById('ticketOnlineInfo').innerHTML = data.online;
+      const btn = document.getElementById('ticketOnlineBtn');
+      if (data.onlineUrl) {
+        btn.href = data.onlineUrl;
+        btn.style.display = 'inline-flex';
+      } else {
+        btn.style.display = 'none';
+      }
+      document.getElementById('ticketPriceInfo').innerHTML = data.price;
+      openModal('ticketModal');
+    }
+
+    let currentTickerIdx = 0;
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function haptic() {
+      if (navigator.vibrate) navigator.vibrate(12);
+    }
+
+    function getStore() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function setStore(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+    function calcDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3;
+      const phi1 = lat1 * Math.PI/180, phi2 = lat2 * Math.PI/180;
+      const dPhi = (lat2 - lat1) * Math.PI/180;
+      const dLam = (lon2 - lon1) * Math.PI/180;
+      const a = Math.sin(dPhi/2) * Math.sin(dPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(dLam/2) * Math.sin(dLam/2);
+      const d = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return d < 1000 ? Math.round(d) + ' m' : (d / 1000).toFixed(1) + ' km';
+    }
+
+    // ==================== TEMA DEĞİŞTİRİCİ ====================
+    function toggleTheme() {
+      haptic();
+      const isDark = document.body.classList.contains('theme-dark');
+      if (isDark) {
+        document.body.classList.remove('theme-dark');
+        document.body.classList.add('theme-light');
+        localStorage.setItem(THEME_KEY, 'light');
+        updateThemeUI('light');
+        showToast('☀️ Açık tema devrede');
+      } else {
+        document.body.classList.remove('theme-light');
+        document.body.classList.add('theme-dark');
+        localStorage.setItem(THEME_KEY, 'dark');
+        updateThemeUI('dark');
+        showToast('🌙 Koyu tema devrede');
+      }
+    }
+
+    function updateThemeUI(mode) {
+      const btn = document.getElementById('themeToggleBtn');
+      const meta = document.getElementById('metaThemeColor');
+      if (mode === 'dark') {
+        if (btn) btn.innerHTML = '🌙 Koyu';
+        if (meta) meta.setAttribute('content', '#0b0d12');
+      } else {
+        if (btn) btn.innerHTML = '☀️ Açık';
+        if (meta) meta.setAttribute('content', '#f8fafc');
+      }
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY) || 'light';
+      document.body.classList.remove('theme-light', 'theme-dark');
+      if (saved === 'dark') {
+        document.body.classList.add('theme-dark');
+        updateThemeUI('dark');
+      } else {
+        document.body.classList.add('theme-light');
+        updateThemeUI('light');
+      }
+    }
+
+    // ==================== OTEL & AKILLI ROTA YÖNETİMİ ====================
+    function loadHotelSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(HOTEL_KEY));
+        if (saved && saved.lat && saved.lng) {
+          hotelInfo = saved;
+        }
+      } catch(e) {}
+      applyHotelToUI();
+    }
+
+    function setHotelPreset(name, address, lat, lng) {
+      haptic();
+      document.getElementById('hotelNameInput').value = name;
+      document.getElementById('hotelAddressInput').value = address;
+      document.getElementById('hotelLatInput').value = lat;
+      document.getElementById('hotelLngInput').value = lng;
+      const preview = document.getElementById('hotelMapsLinkPreview');
+      if (preview) preview.href = `https://maps.apple.com/?q=${encodeURIComponent(name)}&ll=${lat},${lng}`;
+      showToast(`${name} seçildi`);
+    }
+
+    function useCurrentLocationAsHotel() {
+      haptic();
+      if (!navigator.geolocation) {
+        showToast('Cihaz konum servisini desteklemiyor');
+        return;
+      }
+      showToast('Konumunuz alınıyor...');
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const lat = parseFloat(pos.coords.latitude.toFixed(5));
+          const lng = parseFloat(pos.coords.longitude.toFixed(5));
+          document.getElementById('hotelLatInput').value = lat;
+          document.getElementById('hotelLngInput').value = lng;
+          if (!document.getElementById('hotelNameInput').value) {
+            document.getElementById('hotelNameInput').value = 'Konaklama Yerim';
+          }
+          if (!document.getElementById('hotelAddressInput').value) {
+            document.getElementById('hotelAddressInput').value = `GPS Konumu (${lat}, ${lng})`;
+          }
+          const preview = document.getElementById('hotelMapsLinkPreview');
+          if (preview) preview.href = `https://maps.apple.com/?ll=${lat},${lng}`;
+          showToast('Mevcut GPS konumu otele aktarıldı');
+        },
+        () => showToast('Konum izni alınamadı'),
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+
+    function saveHotelSettings() {
+      haptic();
+      const name = document.getElementById('hotelNameInput').value.trim() || 'Otelim';
+      const address = document.getElementById('hotelAddressInput').value.trim() || 'Prag';
+      const lat = parseFloat(document.getElementById('hotelLatInput').value) || 50.0880;
+      const lng = parseFloat(document.getElementById('hotelLngInput').value) || 14.4200;
+
+      hotelInfo = { name, address, lat, lng };
+      localStorage.setItem(HOTEL_KEY, JSON.stringify(hotelInfo));
+      
+      applyHotelToUI();
+      updateDistances();
+      closeModal('hotelModal');
+      showToast(`🏨 ${name} kaydedildi! Tüm rotalar güncellendi.`);
+    }
+
+    function applyHotelToUI() {
+      // Header button
+      const hBtn = document.getElementById('hotelHeaderBtn');
+      if (hBtn) {
+        const shortName = hotelInfo.name.length > 10 ? hotelInfo.name.substring(0, 10) + '...' : hotelInfo.name;
+        hBtn.innerHTML = `🏨 ${shortName}`;
+        hBtn.title = `${hotelInfo.name} (${hotelInfo.address})`;
+      }
+
+      // Modal inputs sync
+      if (document.getElementById('hotelNameInput')) {
+        document.getElementById('hotelNameInput').value = hotelInfo.name;
+        document.getElementById('hotelAddressInput').value = hotelInfo.address;
+        document.getElementById('hotelLatInput').value = hotelInfo.lat;
+        document.getElementById('hotelLngInput').value = hotelInfo.lng;
+        const preview = document.getElementById('hotelMapsLinkPreview');
+        if (preview) preview.href = `https://maps.apple.com/?q=${encodeURIComponent(hotelInfo.name)}&ll=${hotelInfo.lat},${hotelInfo.lng}`;
+      }
+
+      // Update Day 1 Stop 1 (1-1)
+      const card1 = document.querySelector('.stop-card[data-id="1-1"]');
+      if (card1) {
+        card1.dataset.lat = hotelInfo.lat;
+        card1.dataset.lng = hotelInfo.lng;
+        const titleEl = card1.querySelector('.card-title');
+        if (titleEl) titleEl.textContent = `🏨 ${hotelInfo.name} • Giriş & Dinlenme`;
+        const descEl = card1.querySelector('.card-desc');
+        if (descEl) descEl.textContent = `Odaya yerleşme, bavulları bırakma ve dinlenme. Adres: ${hotelInfo.address}`;
+        const bar = card1.querySelector('.card-actions-bar');
+        if (bar) {
+          bar.innerHTML = `
+            <a class="btn-act" href="https://maps.apple.com/?daddr=${hotelInfo.lat},${hotelInfo.lng}&q=${encodeURIComponent(hotelInfo.name)}" target="_blank">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Otele Yol Tarifi
+            </a>
+            <button class="btn-act" onclick="shareSingleStop(this, '${hotelInfo.name} Giriş', 'https://maps.apple.com/?daddr=${hotelInfo.lat},${hotelInfo.lng}')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Eşime İlet
+            </button>
+          `;
+        }
+      }
+
+      // Update Day 5 Stop 1 (5-1)
+      const card5 = document.querySelector('.stop-card[data-id="5-1"]');
+      if (card5) {
+        card5.dataset.lat = hotelInfo.lat;
+        card5.dataset.lng = hotelInfo.lng;
+        const titleEl = card5.querySelector('.card-title');
+        if (titleEl) titleEl.textContent = `🏨 ${hotelInfo.name} • Çıkış (Check-out)`;
+        const descEl = card5.querySelector('.card-desc');
+        if (descEl) descEl.textContent = `Valizlerin teslim alınması ve havalimanına transfer için hareket. Adres: ${hotelInfo.address}`;
+        const bar = card5.querySelector('.card-actions-bar');
+        if (bar) {
+          bar.innerHTML = `
+            <a class="btn-act" href="https://maps.apple.com/?daddr=${hotelInfo.lat},${hotelInfo.lng}&q=${encodeURIComponent(hotelInfo.name)}" target="_blank">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Otele Git
+            </a>
+            <button class="btn-act" onclick="shareSingleStop(this, '${hotelInfo.name} Çıkış', 'https://maps.apple.com/?daddr=${hotelInfo.lat},${hotelInfo.lng}')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Eşime İlet
+            </button>
+          `;
+        }
+      }
+
+      // Add or update "Otele Dön" navigation button in all cards
+      document.querySelectorAll('.stop-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        if (id === '1-1' || id === '5-1') return;
+        const bar = card.querySelector('.card-actions-bar');
+        if (!bar) return;
+
+        const cLat = parseFloat(card.dataset.lat);
+        const cLng = parseFloat(card.dataset.lng);
+        if (isNaN(cLat) || isNaN(cLng)) return;
+
+        const hotelRouteUrl = `https://maps.apple.com/?saddr=${cLat},${cLng}&daddr=${hotelInfo.lat},${hotelInfo.lng}&dirflg=w`;
+        
+        let retBtn = bar.querySelector('.hotel-return-btn');
+        if (!retBtn) {
+          retBtn = document.createElement('a');
+          retBtn.className = 'btn-act hotel-return-btn';
+          retBtn.target = '_blank';
+          retBtn.innerHTML = `
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Otele Dön
+          `;
+          const shareBtn = bar.querySelector('button');
+          if (shareBtn) bar.insertBefore(retBtn, shareBtn);
+          else bar.appendChild(retBtn);
+        }
+        retBtn.href = hotelRouteUrl;
+        retBtn.title = `${hotelInfo.name}'e dönüş rotası aç`;
+      });
+    }
+
+    function updateDistances() {
+      document.querySelectorAll('.stop-card').forEach(card => {
+        const cLat = parseFloat(card.dataset.lat);
+        const cLng = parseFloat(card.dataset.lng);
+        const tag = card.querySelector('.dist-tag');
+        if (!tag || isNaN(cLat) || isNaN(cLng)) return;
+
+        const dHotel = calcDistance(hotelInfo.lat, hotelInfo.lng, cLat, cLng);
+        if (userLat && userLng) {
+          const dUser = calcDistance(userLat, userLng, cLat, cLng);
+          tag.textContent = `📍 ${dUser} • 🏨 Otele ${dHotel}`;
+        } else {
+          tag.textContent = `🏨 Otele: ${dHotel}`;
+        }
+      });
+      updateHeroBanner();
+    }
+
+    function requestGPS() {
+      const btn = document.getElementById('gpsBtn');
+      if (!navigator.geolocation) {
+        showToast('Cihaz konum servisini desteklemiyor.');
+        return;
+      }
+      btn.textContent = 'Alınıyor...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          userLat = pos.coords.latitude;
+          userLng = pos.coords.longitude;
+          localStorage.setItem(COORDS_KEY, JSON.stringify({ lat: userLat, lng: userLng }));
+          btn.textContent = 'Güncel';
+          updateDistances();
+          showToast('Konumunuz güncellendi');
+        },
+        () => {
+          btn.textContent = 'Konum';
+          showToast('Konum izni alınamadı');
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+
+    function updateHeroBanner() {
+      const activeSec = document.getElementById(activeDay);
+      if (!activeSec) return;
+
+      const uncompletedCards = Array.from(activeSec.querySelectorAll('.stop-card:not(.completed)'));
+      const wpPrev = document.getElementById('wpNextStopPreview');
+      if (wpPrev) {
+        if (uncompletedCards.length > 0) {
+          const title = uncompletedCards[0].querySelector('.card-title').textContent;
+          wpPrev.textContent = `Sıradaki durağımız: ${title}`;
+        } else {
+          wpPrev.textContent = 'Bugünün tüm durakları tamamlandı!';
+        }
+      }
+    }
+
+    function calculateProgress() {
+      const cards = document.querySelectorAll('.stop-card');
+      let done = 0;
+      cards.forEach(c => { if (c.classList.contains('completed')) done++; });
+      const percent = Math.round((done / cards.length) * 100) || 0;
+      document.getElementById('pBar').style.width = percent + '%';
+      document.getElementById('pCount').textContent = `${done} / ${cards.length} Tamamlandı`;
+      updateHeroBanner();
+    }
+
+    function toggleHideDone() {
+      const hide = document.getElementById('hideDoneToggle').checked;
+      document.querySelectorAll('.stop-card.completed').forEach(c => {
+        if (hide) c.classList.add('hide-completed');
+        else c.classList.remove('hide-completed');
+      });
+    }
+
+    function setupCards() {
+      const store = getStore();
+      document.querySelectorAll('.stop-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        if (store[id]) card.classList.add('completed');
+
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.card-actions-bar') || e.target.closest('a') || e.target.closest('button')) return;
+          haptic();
+          card.classList.toggle('completed');
+          const currentStore = getStore();
+          currentStore[id] = card.classList.contains('completed');
+          setStore(currentStore);
+          calculateProgress();
+          toggleHideDone();
+        });
+      });
+
+      calculateProgress();
+      
+      try {
+        const saved = JSON.parse(localStorage.getItem(COORDS_KEY));
+        if (saved && saved.lat && saved.lng) {
+          userLat = saved.lat;
+          userLng = saved.lng;
+          document.getElementById('gpsBtn').textContent = 'Hazır';
+          updateDistances();
+        }
+      } catch(e) {}
+    }
+
+    function switchDay(dayId) {
+      haptic();
+      activeDay = dayId;
+      document.querySelectorAll('.day-view').forEach(v => v.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+      
+      const target = document.getElementById(dayId);
+      if (target) target.style.display = 'block';
+
+      const clickedBtn = document.querySelector(`.tab-btn[onclick="switchDay('${dayId}')"]`);
+      if (clickedBtn) clickedBtn.classList.add('active');
+
+      updateHeroBanner();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetAll() {
+      if (confirm('Tüm günlerin işaretleri sıfırlansın mı?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        document.querySelectorAll('.stop-card').forEach(c => {
+          c.classList.remove('completed');
+          c.classList.remove('hide-completed');
+        });
+        calculateProgress();
+        showToast('İşaretler sıfırlandı');
+      }
+    }
+
+    function openModal(id) { 
+      haptic(); 
+      if (id === 'hotelModal') {
+        if (document.getElementById('hotelNameInput')) {
+          document.getElementById('hotelNameInput').value = hotelInfo.name;
+          document.getElementById('hotelAddressInput').value = hotelInfo.address;
+          document.getElementById('hotelLatInput').value = hotelInfo.lat;
+          document.getElementById('hotelLngInput').value = hotelInfo.lng;
+        }
+      }
+      document.getElementById(id).style.display = 'flex'; 
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function closeOnBackdrop(e, id) { if (e.target.id === id) closeModal(id); }
+    function openShareModal() { openModal('shareModal'); }
+
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      document.querySelectorAll('.stop-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = (!query || text.includes(query)) ? '' : 'none';
+      });
+    }
+
+    // ==================== CANLI DÖVİZ MOTORU ====================
+    function setBaseCurrency(curr) {
+      haptic();
+      selectedBaseCurrency = curr;
+      ['CZK', 'EUR', 'TRY', 'USD'].forEach(c => {
+        const btn = document.getElementById('tab' + c);
+        if (btn) {
+          if (c === curr) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+
+      const input = document.getElementById('czkInput');
+      if (curr === 'EUR' || curr === 'USD') input.value = 10;
+      else if (curr === 'TRY') input.value = 250;
+      else input.value = 100;
+
+      renderQuickChips();
+      convertCurrency();
+    }
+
+    function renderQuickChips() {
+      const container = document.getElementById('quickChipsContainer');
+      if (!container) return;
+      const presets = chipPresets[selectedBaseCurrency] || chipPresets['CZK'];
+      container.innerHTML = presets.map(p => 
+        `<button class="btn-clean" onclick="setCalcValue(${p.val})">${p.label}</button>`
+      ).join('');
+    }
+
+    function setCalcValue(v) {
+      haptic();
+      document.getElementById('czkInput').value = v;
+      convertCurrency();
+    }
+
+    function convertCurrency() {
+      const inputVal = parseFloat(document.getElementById('czkInput').value) || 0;
+      const grid = document.getElementById('calcResultsGrid');
+      if (!grid) return;
+
+      let czkBase = 0;
+      if (selectedBaseCurrency === 'CZK') czkBase = inputVal;
+      else if (selectedBaseCurrency === 'EUR') czkBase = inputVal / exchangeRates.eurRate;
+      else if (selectedBaseCurrency === 'TRY') czkBase = inputVal / exchangeRates.tryRate;
+      else if (selectedBaseCurrency === 'USD') czkBase = inputVal / exchangeRates.usdRate;
+
+      const czkVal = czkBase.toFixed(0);
+      const tryVal = (czkBase * exchangeRates.tryRate).toFixed(1);
+      const eurVal = (czkBase * exchangeRates.eurRate).toFixed(2);
+      const usdVal = (czkBase * exchangeRates.usdRate).toFixed(2);
+
+      let cards = [];
+      if (selectedBaseCurrency !== 'CZK') cards.push({ lbl: 'CZK', val: czkVal });
+      if (selectedBaseCurrency !== 'TRY') cards.push({ lbl: 'TL', val: tryVal });
+      if (selectedBaseCurrency !== 'EUR') cards.push({ lbl: 'EUR', val: eurVal + ' €' });
+      if (selectedBaseCurrency !== 'USD') cards.push({ lbl: 'USD', val: usdVal + ' $' });
+
+      grid.innerHTML = cards.map(c => `
+        <div style="background:var(--btn-bg); border:1px solid var(--border); border-radius:12px; padding:10px; text-align:center;">
+          <div style="font-size:0.65rem; color:var(--text-muted); margin-bottom:2px;">${c.lbl}</div>
+          <div style="font-size:1.1rem; font-weight:700; color:var(--text);">${c.val}</div>
+        </div>
+      `).join('');
+    }
+
+    async function fetchLiveExchangeRates(showFeedback) {
+      if (showFeedback) showToast('Kurlar alınıyor...');
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/CZK', { cache: 'no-cache' });
+        const data = await res.json();
+        if (data && data.result === 'success' && data.rates) {
+          exchangeRates.tryRate = data.rates.TRY || 2.28;
+          exchangeRates.eurRate = data.rates.EUR || 0.0411;
+          exchangeRates.usdRate = data.rates.USD || 0.0461;
+          localStorage.setItem(RATES_KEY, JSON.stringify(exchangeRates));
+          
+          const eurInCzk = (1 / exchangeRates.eurRate).toFixed(2);
+          document.getElementById('rateInfoText').textContent = `1 CZK ≈ ${exchangeRates.tryRate.toFixed(2)} TL | 1 EUR ≈ ${eurInCzk} CZK`;
+          convertCurrency();
+          if (showFeedback) showToast('Canlı kurlar güncellendi');
+        }
+      } catch(e) {
+        if (showFeedback) showToast('Kayıtlı kurlar aktif');
+      }
+    }
+
+    // ==================== ULAŞIM REHBERİ SEKME GEÇİŞİ ====================
+    function switchGuideTab(tab) {
+      haptic();
+      document.getElementById('guideSectionTransit').style.display = tab === 'transit' ? 'block' : 'none';
+      document.getElementById('guideSectionKids').style.display = tab === 'kids' ? 'block' : 'none';
+      document.getElementById('guideSectionDict').style.display = tab === 'dict' ? 'block' : 'none';
+
+      ['transit', 'kids', 'dict'].forEach(t => {
+        const b = document.getElementById(t === 'transit' ? 'tabTransit' : t === 'kids' ? 'tabKids' : 'tabDict');
+        if (b) {
+          if (t === tab) b.classList.add('active');
+          else b.classList.remove('active');
+        }
+      });
+    }
+
+    function speakText(text) {
+      haptic();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'cs-CZ';
+        u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // ==================== CANLI ŞEHİR AKIŞI ====================
+    function renderTicker() {
+      const item = pragueNewsItems[currentTickerIdx % pragueNewsItems.length];
+      const el = document.getElementById('tickerText');
+      if (!el || !item) return;
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.innerHTML = `<b>${item.title}:</b> ${item.summary}`;
+        el.style.opacity = '1';
+      }, 200);
+    }
+
+    function renderNewsList() {
+      const container = document.getElementById('newsListContainer');
+      if (!container) return;
+      container.innerHTML = pragueNewsItems.map(i => {
+        let tagColor = '#2563eb';
+        let icon = '📢';
+        if (i.source.includes('Meteoroloji') || i.title.includes('Soğuk') || i.title.includes('Hava')) {
+          tagColor = '#0284c7'; icon = '❄️';
+        } else if (i.source.includes('Belediye') || i.title.includes('Festival') || i.title.includes('Devrim')) {
+          tagColor = '#dc2626'; icon = '🎉';
+        } else if (i.title.includes('Noel') || i.title.includes('Pazar')) {
+          tagColor = '#d97706'; icon = '🎄';
+        } else if (i.source.includes('DPP') || i.title.includes('Tramvay')) {
+          tagColor = '#059669'; icon = '🚋';
+        } else if (i.source.includes('Morning')) {
+          tagColor = '#7c3aed'; icon = '🌐';
+        }
+
+        const newsUrl = i.url || 'https://www.praguemorning.cz';
+
+        return `
+        <div class="sheet-card" style="border-left: 3px solid ${tagColor}; margin-bottom: 10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+            <span style="font-weight:700; color:var(--text); font-size:0.86rem; display:flex; align-items:center; gap:6px;">
+              <span>${icon}</span> ${i.title}
+            </span>
+            <span style="font-size:0.65rem; color:var(--text-dim); background:var(--btn-bg); padding:2px 6px; border-radius:4px;">${i.time}</span>
+          </div>
+          <div class="sheet-card-desc" style="font-size:0.76rem; line-height:1.45; color:var(--text-muted); margin-bottom:8px;">${i.summary}</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.68rem; color:var(--text-dim); padding-top:4px; border-top:1px dashed var(--border);">
+            <span style="color:${tagColor}; font-weight:700;">${i.source}</span>
+            <a href="${newsUrl}" target="_blank" rel="noopener" style="color:var(--accent-blue); font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:3px; background:var(--btn-bg); padding:3px 8px; border-radius:5px; border:1px solid var(--border);">
+              Haberi Oku &rsaquo;
+            </a>
+          </div>
+        </div>
+        `;
+      }).join('');
+    }
+
+    async function fetchLiveNews(showFeedback) {
+      if (showFeedback) showToast('Haberler taranıyor & çevriliyor...');
+      try {
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.praguemorning.cz/feed/', { cache: 'no-cache' });
+        const data = await res.json();
+        if (data && data.status === 'ok' && data.items && data.items.length > 0) {
+          const rawItems = data.items.slice(0, 4);
+          
+          // Anlık Türkçe Çeviri Motoru
+          const translated = await Promise.all(rawItems.map(async item => {
+            const cleanDesc = item.description ? item.description.replace(/<[^>]*>?/gm, '').substring(0, 130) : '';
+            const [trTitle, trSummary] = await Promise.all([
+              translateTextToTurkish(item.title),
+              translateTextToTurkish(cleanDesc)
+            ]);
+            return {
+              title: trTitle || item.title,
+              summary: (trSummary || cleanDesc) + '...',
+              source: 'Prague Morning (Canlı TR)',
+              time: 'Son Dakika',
+              url: item.link || 'https://www.praguemorning.cz'
+            };
+          }));
+
+          pragueNewsItems = [...translated, ...defaultTurkishNews];
+          renderTicker();
+          renderNewsList();
+          const lastEl = document.getElementById('newsLastUpdated');
+          if (lastEl) {
+            lastEl.textContent = 'Son güncelleme: ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' (Canlı TR Çeviri)';
+          }
+          if (showFeedback) showToast('Canlı haberler Türkçe\'ye çevrildi');
+        }
+      } catch(e) {
+        if (showFeedback) showToast('Kayıtlı Türkçe bülten devrede');
+      }
+    }
+
+    // ==================== WHATSAPP PAYLAŞIM ====================
+    function shareCurrentStopToWP() {
+      haptic();
+      const activeSec = document.getElementById(activeDay);
+      if (!activeSec) return;
+      const uncompletedCards = Array.from(activeSec.querySelectorAll('.stop-card:not(.completed)'));
+      if (uncompletedCards.length === 0) {
+        showToast('Tüm duraklar tamamlandı');
+        return;
+      }
+      const next = uncompletedCards[0];
+      const title = next.querySelector('.card-title').textContent;
+      const desc = next.querySelector('.card-desc').textContent;
+      const link = next.querySelector('.btn-act') ? next.querySelector('.btn-act').href : window.location.href;
+
+      const msg = `🇨🇿 Sıradaki hedefimiz:\n📍 *${title}*\n${desc}\n\n🗺️ Harita: ${link}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+      closeModal('shareModal');
+    }
+
+    function shareCurrentDayPlanToWP() {
+      haptic();
+      const dayTitle = dayLabels[activeDay] || 'Bugünün Planı';
+      const activeSec = document.getElementById(activeDay);
+      if (!activeSec) return;
+
+      const cards = activeSec.querySelectorAll('.stop-card');
+      let stopsList = "";
+      cards.forEach((c, idx) => {
+        const t = c.querySelector('.card-title').textContent;
+        const time = c.querySelector('.chip.time') ? c.querySelector('.chip.time').textContent : '';
+        const isDone = c.classList.contains('completed') ? '✓' : '○';
+        stopsList += `${idx + 1}. [${time}] ${t} (${isDone})\n`;
+      });
+
+      const msg = `🇨🇿 *${dayTitle}*\n\nBugünkü Rotamız:\n${stopsList}\n📱 Takip: ${window.location.href}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+      closeModal('shareModal');
+    }
+
+    function shareAppLinkToWP() {
+      haptic();
+      const msg = `🇨🇿 Prag seyahatimiz için hazırladığım canlı gezi asistanı rehberi burada:\n${window.location.href}\n\n(Safari'den "Ana Ekrana Ekle" diyerek uygulama gibi kullanabilirsin!)`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+      closeModal('shareModal');
+    }
+
+    function shareSingleStop(btn, title, mapLink) {
+      haptic();
+      const card = btn.closest('.stop-card');
+      const desc = card ? card.querySelector('.card-desc').textContent : '';
+      const link = mapLink || (card && card.querySelector('.btn-act') ? card.querySelector('.btn-act').href : window.location.href);
+
+      const msg = `🇨🇿 *${title}*\n${desc}\n\n🗺️ Konum: ${link}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadHotelSettings();
+      setupCards();
+      applyHotelToUI();
+      updateDistances();
+      renderQuickChips();
+      convertCurrency();
+      renderTicker();
+      renderNewsList();
+      setInterval(() => { currentTickerIdx++; renderTicker(); }, 5000);
+      
+      try {
+        const savedRates = JSON.parse(localStorage.getItem(RATES_KEY));
+        if (savedRates) exchangeRates = savedRates;
+      } catch(e) {}
+      fetchLiveExchangeRates(false);
+      fetchLiveNews(false);
+    });
+  </script>
+</body>
+</html>
